@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<body  class="lightmode ">
+  {% load static %}
+
+  
+	<div class="nav" id="nav">
+		<ul class="navbar-nav">
+			<li><a href="#">
+				<!--i class="fa fa-twitter"></i><span class="link-text close" onclick="closeNav()">X</span -->
+				<img src="{% static 'images/bird.ico' %}" class="w3-left w3-circle w3-margin-right" style="width:60px"></img><span class="link-text close" onclick="closeNav()">X</span>
+			</a></li>
+
+			<li><a href="#"><i class="fa fa-home"></i><span class="link-text">Home</span></a></li>
+			<li><a href="#"><i class="fa fa-rocket"></i><span>Explore</span class="link-text"></a></li>
+			<li><a href="#"><i class="fa fa-bell"></i><span class="link-text">Notifications</span></a></li>
+			<li><a href="#"><i class="fa fa-twitter"></i><span class="link-text">Messages</span></a></li>
+			<li><a href="#"><i class="fa fa-bookmark"></i><span class="link-text">Bookmarks</span></a></li>
+			<li><a href="#"><i class="fa fa-list"></i><span class="link-text">Lists</span></a></li>
+			<li><a href="#"><i class="fa fa-user"></i><span class="link-text">Profile</span></a></li>
+			<li><a href="#"><i class="fa fa-arrow-up"></i><span class="link-text">More</span></a></li>
+			<li class="link-tweets"><a href="#"><i class="fa fa-plus"></i><span class="link-text">Cheep</span></a></li>
+
+		</ul>		
+	</div>
+
+
+ <div class="second" id="second">
+
+		 <div class="second-tweet">
+		 	  <div class="tweet-header">
+        		<h4>Home</h4>
+				<button class="btns" onclick="openNav()">☰ </button>
+     		 </div>
+
+     	
+     		 <div class="add-tweet">
+     		 	<span class="add-tweet-image">
+            <img src="{% static 'images/img_avatar2.png' %}" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
+          </span>
+     		 	<div class="add-tweet-input">
+     		 		<div>
+                        <textarea type="text" rows="1" cols="30"  placeholder =" What's happening ?"></textarea>
+     		 		</div>
+     		 		<div>
+     		 			<ul class="add-tweet-icon">
+
+							  <li class="link-tweet"><span>Cheep</span></li>
+
+     		 			</ul>
+						
+     		 		</div>
+     		 	</div>
+     		 </div>
+          
+     		<!--Twetts-->
+
+         {%for tweet_text in posts%}
+     		 	<div class="actual-tweet">
+	     		 	<span class="add-tweet-image">
+              <img src="{% static 'images/img_avatar2.png' %}" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
+            </span>
+	     		 		<div class="tweet-content">
+	     		 			<a href="#">Maria Araujo</a> <span class="side-name">@Barmaria | 14 hrs </span>
+	     		 			<p>{{tweet_text.content}}</p>
+	     		 			<div class="w3-center">
+                  <button type="button" class="w3-button w3-theme-d2 w3-margin-bottom" id="reply" onclick="reply()"><i class="fa fa-comment"></i> </button>    
+                  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-retweet"></i>  </button> 
+                  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-heart"></i> </button> 
+                  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-share"></i></button> 
+                  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-ban"></i></button> 
+                  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-user-plus"></i></button> 
+  
+                </div>
+	     		 		</div>
+	     		 		
+     		 	</div>
+            {% endfor %}
+			
+     		</div>
+
+		<div class="second-trend">
+		 	<div class="search">
+		 		<i class="fa fa-search searchicon"></i>
+		 		<input type="text" id="search-bar" placeholder="Search chirp">
+		 	</div>
+		 	<div class="trend">
+   				<h4 class="h4-title">Trends for you</h4>
+            <div class="trend-div">
+   			 	<div class="left-20"> 
+    			<a href="#"><small class="trend-title">Trending in Portugal</small></a>
+      			<a href="#">
+       			<p class="trend-list">Cristina Ferreira</p>
+     		    </a>
+             <a href="#"><small class="trend-title">Trending in Portugal</small></a>
+             <a href="#">
+              <p class="trend-list">The weekend</p>
+              </a>
+				</div>
+            </div>
+   			</div>
+
+        <div class="help">
+        <p><button class="w3-button w3-black w3-round-xxlarge" onclick="document.getElementById('Help').style.display='block'">Do you need help?</button></p>
+      </div>
+      	<!-- This work page-->
+      <div id="Help" class="w3-modal w3-animate-opacity">
+        <div class="w3-modal-content" style="padding:32px">
+            <div class="w3-container w3-white">
+            <i onclick="document.getElementById('Help').style.display='none'" class="fa fa-remove w3-transparent w3-button w3-xlarge w3-right"></i>
+            <h2 class="w3-center">Help page</h2>
+            <p style="text-align: justify;text-justify: inter-word;  font-family: Arial, Helvetica, sans-serif"> Dar istruçoes de uso das funcionalidades</p> 
+            </div>
+        </div>
+      </div>
+
+		   
+		 </div>
+	
+		 <div class="bottom-menu">
+			<ul>
+				<li><i class="fa fa-home" style="color: var(--red);"></i></li>
+				<li><i class="fa fa-search"></i></li>
+				<li><i class="fa fa-user"></i></li>
+				<li><i class="fa fa-bell"></i></li>
+			</ul>
+		</div>
+
+
+</div> 
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+ 
+<script src="home.js"></script>
+</body>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type=text/javascript>
+        $(function() {
+          $('#reply').on('click', function(e) {
+            e.preventDefault()
+            $.getJSON('/add_reply',
+                function(data) {
+              //do nothing
+            });
+            return false;
+          });
+        });
+</script>
+
+
+{% endblock %}
