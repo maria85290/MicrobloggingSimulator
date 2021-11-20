@@ -66,12 +66,12 @@
 	     		 			<a href="#">Maria Araujo</a> <span class="side-name">@Barmaria | 14 hrs </span>
 	     		 			<p>{{tweet_text.content}}</p>
 	     		 			<div class="w3-center">
-                  <button type="button" class="w3-button w3-theme-d2 w3-margin-bottom" id="reply" onclick="reply()"><i class="fa fa-comment"></i> </button>    
-                  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-retweet"></i>  </button> 
-                  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-heart"></i> </button> 
-                  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-share"></i></button> 
-                  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-ban"></i></button> 
-                  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-user-plus"></i></button> 
+                  <button type="button" class="w3-button w3-theme-d2 w3-margin-bottom" id = "{{tweet_text.id}}-reply" onclick="interaction(this.id)"><i class="fa fa-comment"></i> </button>    
+                  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.id}}-retweet" onclick="interaction(this.id)"><i class="fa fa-retweet"></i>  </button> 
+                  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.id}}-like" onclick="interaction(this.id)" > <i class="fa fa-heart"></i> </button> 
+                  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.id}}-share" onclick="interaction(this.id)"><i class="fa fa-share"></i></button> 
+                  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.id}}-block" onclick="interaction(this.id)"><i class="fa fa-ban"></i></button> 
+                  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.id}}-follow" onclick="interaction(this.id)"><i class="fa fa-user-plus"></i></button> 
   
                 </div>
 	     		 		</div>
@@ -139,23 +139,19 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
- 
-<script src="home.js"></script>
-</body>
+ </body>
+
+
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script type=text/javascript>
-        $(function() {
-          $('#reply').on('click', function(e) {
-            e.preventDefault()
-            $.getJSON('/add_reply',
-                function(data) {
-              //do nothing
-            });
-            return false;
-          });
-        });
+ 
+	function interaction(clicked_id) { 
+		$.get('add_interaction', clicked_id);
+	} 
 </script>
 
 
 {% endblock %}
+
+</script>

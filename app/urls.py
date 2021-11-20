@@ -23,6 +23,8 @@ urlpatterns = [
     path('home', views.home_view, name ="home"),
     path('about', views.about_view, name ="about"),
     path('participate', participate, name ="posts"),
+    path('add_interaction', add_interaction, name ="add_interaction"),
     path('contact', views.contact_view, name ="contact"),
+
     path('admin/', admin.site.urls)
 ]

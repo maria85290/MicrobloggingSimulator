@@ -10,20 +10,20 @@ def get_posts (numberPosts):
     
     return True, post
 
-def get_actionType (nameAction):
+def get_actionType_id (nameAction):
     try:
         action = Action_type.objects.get(name = nameAction)
 
     except Action_type.DoesNotExist:
         return False, "Action does not exit"
 
-    return True, action
+    return True, action.id
 
 
-def add_participant (data):
+def add_participant ():
     
     try:
-        Participant.objects.create()
+        Participant.objects.create( id = "1" )
     
     except Exception:
         error_message = "Error while creating new participant!"
@@ -34,17 +34,24 @@ def add_participant (data):
     return True, state_message
 
 
-def add_interaction(data):
+def add_interactions(data):
     postID = data.get('postId')
-    action_type_id = get_actionType(data.get('actionType'))
+    action_type_id = get_actionType_id(data.get('actionType'))[1]
     participantID = data.get ('participantId') 
+
+    print(postID)
+    print(action_type_id)
+    print(participantID)
 
     if data.get('actionType') == "reply":
         reply_content = data.get("reply_content") 
     
     try:
-        Interaction.objects.create(actionTypeID =action_type_id, post = postID, participant = participantID )
+        Interaction.objects.create(actionType_id = action_type_id, replyContent = " ",post_id = postID, participant_id = participantID )
+        state_message = "Objeto inserido com sucesso"
     
     except Exception:
         error_message = "Error while creating new interaction!"
         return False, error_message
+
+    return True, state_message

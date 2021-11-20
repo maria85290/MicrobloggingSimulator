@@ -14,12 +14,17 @@ from .queries import *
 from .serializers import *
 # Create your views here.
 
+from django.views.decorators.csrf import csrf_protect
 
 '''
 Render participate page
 '''
-
+@csrf_protect
 def participate(request,*args, **kwargs):
+
+        state, message = add_participant ()
+
+        print(message)
         ## Numero de posts a mostar
         n = 2
         
@@ -31,4 +36,17 @@ def participate(request,*args, **kwargs):
       
 
 def add_interaction (request, *args, **kwargs):
-        return 0
+        ## Querie recebida da interação
+        query = request.GET.urlencode().split('-')
+      
+        id_post = query[0]
+
+        action_type = query[1][:-1]
+
+        print(id_post, action_type)
+        
+        state, message = add_interactions({"postId": id_post, "participantId": 3,"actionType": action_type })
+
+        print(message)
+
+        return render (request, "tweet/participate.html")
