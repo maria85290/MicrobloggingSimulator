@@ -1,5 +1,8 @@
 from types import CodeType
 from .models import *
+import datetime
+ 
+
 
 
 def get_posts (numberPosts):
@@ -23,18 +26,19 @@ def get_actionType_id (nameAction):
 def add_participant ():
     
     try:
-        Participant.objects.create( id = "1" )
-    
+        x = Participant.objects.create(personality = 0, beginTime = datetime.datetime.now(), endTime =  '00:00:00' )
+        id = x.id
     except Exception:
         error_message = "Error while creating new participant!"
-        return False, error_message
+        return False, error_message, 00
 
 
     state_message = "Partcipant was registered successfully!"
-    return True, state_message
+    return True, state_message, id
 
 
 def add_interactions(data):
+ 
     postID = data.get('postId')
     action_type_id = get_actionType_id(data.get('actionType'))[1]
     participantID = data.get ('participantId') 

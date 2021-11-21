@@ -14,15 +14,20 @@ from .queries import *
 from .serializers import *
 # Create your views here.
 
+ 
+import uuid
 from django.views.decorators.csrf import csrf_protect
 
 '''
 Render participate page
 '''
+
+participantId = 00
+
 @csrf_protect
 def participate(request,*args, **kwargs):
-
-        state, message = add_participant ()
+        
+        state, message, id = add_participant ()
 
         print(message)
         ## Numero de posts a mostar
@@ -32,20 +37,21 @@ def participate(request,*args, **kwargs):
         state, posts = get_posts(n)
       
 
-        return render (request, "tweet/participate.html", {"posts":posts})
+        return render (request, "tweet/participate.html", {"posts":posts, "idParticipant":id})
       
 
 def add_interaction (request, *args, **kwargs):
-        ## Querie recebida da interação
+        
+        ## Querie recebida da interação, com Id do post, tipo de ação e id do participante
         query = request.GET.urlencode().split('-')
       
         id_post = query[0]
+        action_type = query[1]
+        participantId = query[2][:-1]
 
-        action_type = query[1][:-1]
-
-        print(id_post, action_type)
+        print(id_post, action_type, participantId)
         
-        state, message = add_interactions({"postId": id_post, "participantId": 3,"actionType": action_type })
+        state, message = add_interactions({"postId": id_post, "participantId": participantId,"actionType": action_type })
 
         print(message)
 
