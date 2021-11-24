@@ -3,8 +3,33 @@ from django.db import models
 
 
 # Create your models here.
-## Outros campos que podem aqui ser identificados:
-## follows_list, time etz
+
+
+#################################
+## Este modelo é responsavel pela configuração do estudo 
+##################################
+
+
+class Configuration (models.Model):
+    configName = models.CharField(max_length=10) 
+    space_for_comment = models.BooleanField(default = 0) ## caixa de textxo para escrever comentário
+    user_picture  =  models.BooleanField(default = 0)   # O criador do post tem foto de perfil
+    reply_button =  models.BooleanField(default = 0)  
+    like_button =  models.BooleanField(default = 0)  
+    share_button =  models.BooleanField(default = 0)  
+    block_button =  models.BooleanField(default = 0)  
+    follow_button =  models.BooleanField(default = 0)  
+    retweet_button =  models.BooleanField(default = 0)  
+    posts_number = models.IntegerField(default=1)
+    lower_limit_interaction = models.IntegerField(default=1)    #limite inferior de numero de interações
+    upper_limit_interaction = models.IntegerField(default=1)     # limite superior número de interações
+
+class Environment (models.Model):
+    configuration =  models.ForeignKey(Configuration, on_delete=models.CASCADE)
+
+#####################################################
+### Modelos de dados
+###################################################
 
 class Participant(models.Model):
     personality = models.IntegerField(default=0)

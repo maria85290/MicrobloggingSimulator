@@ -4,13 +4,15 @@
 
 <body  class="lightmode ">
   {% load static %}
+  {% load random %}
+
 
   
 	<div class="nav" id="nav">
 		<ul class="navbar-nav">
 			<li><a href="#">
 				<!--i class="fa fa-twitter"></i><span class="link-text close" onclick="closeNav()">X</span -->
-				<img src="{% static 'images/bird.ico' %}" class="w3-left w3-circle w3-margin-right" style="width:60px"></img><span class="link-text close" onclick="closeNav()">X</span>
+				<img src="{% static 'images/bird.png' %}" class="w3-right w3-circle w3-margin-right" style="width:80px"></img><span class="link-text close" onclick="closeNav()">X</span>
 			</a></li>
 
 			<li><a href="#"><i class="fa fa-home"></i><span class="link-text">Home</span></a></li>
@@ -38,7 +40,8 @@
      	
      		 <div class="add-tweet">
      		 	<span class="add-tweet-image">
-            <img src="{% static 'images/img_avatar2.png' %}" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
+			<img src= "{% random_image config.user_picture %}"  alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
+            <!--img src="{% static 'users/images/img_avatar1.png' %}" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px"-->
           </span>
      		 	<div class="add-tweet-input">
      		 		<div>
@@ -57,27 +60,27 @@
           
      		<!--Twetts-->
 
-         {%for tweet_text in posts%}
+        {% for tweet_text in posts%}
      		 	<div class="actual-tweet">
 	     		 	<span class="add-tweet-image">
-              <img src="{% static 'images/img_avatar2.png' %}" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
-            </span>
-	     		 		<div class="tweet-content">
-	     		 			<a href="#">Maria Araujo</a> <span class="side-name">@Barmaria | 14 hrs </span>
+              			<img src = "{% random_image config.user_picture %}" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
+            		</span>
+	     		 	<div class="tweet-content">
+	     		 			<a href="#">{% random_name%}</a> <span class="side-name"> | 14 hrs </span>
 	     		 			<p>{{tweet_text.content}}</p>
 	     		 			<div class="w3-center">
-                  <button type="button" class="w3-button w3-theme-d2 w3-margin-bottom" id = "{{tweet_text.id}}-reply-{{idParticipant}}" onclick="interaction(this.id)"><i class="fa fa-comment"></i> </button>    
-                  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.id}}-retweet-{{idParticipant}}" onclick="interaction(this.id)"><i class="fa fa-retweet"></i>  </button> 
-                  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.id}}-like-{{idParticipant}}" onclick="interaction(this.id)" > <i class="fa fa-heart"></i> </button> 
-                  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.id}}-share-{{idParticipant}}" onclick="interaction(this.id)"><i class="fa fa-share"></i></button> 
-                  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.id}}-block-{{idParticipant}}" onclick="interaction(this.id)"><i class="fa fa-ban"></i></button> 
-                  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.id}}-follow-{{idParticipant}}" onclick="interaction(this.id)"><i class="fa fa-user-plus"></i></button> 
-  
-                </div>
-	     		 		</div>
+								{% if config.reply_button != False %}  <button type="button" class="w3-button w3-theme-d2 w3-margin-bottom" id = "{{tweet_text.id}}-reply-{{idParticipant}}" onclick="interaction(this.id)"><i class="fa fa-comment">  {% random_int config.lower_limit_interaction config.upper_limit_interaction %} </i>  </button>    {% endif %} 
+								{% if config.retweet_button != False %}  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.id}}-retweet-{{idParticipant}}" onclick="interaction(this.id)"><i class="fa fa-retweet">  {% random_int config.lower_limit_interaction config.upper_limit_interaction %}</i>  </button> {% endif %}
+								{% if config.like_button != False %}  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.id}}-like-{{idParticipant}}" onclick="interaction(this.id)" > <i class="fa fa-heart"> {% random_int config.lower_limit_interaction config.upper_limit_interaction %}</i> </button> {% endif %}
+								{% if config.share_button != False %}  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.id}}-share-{{idParticipant}}" onclick="interaction(this.id)"><i class="fa fa-share"> {% random_int config.lower_limit_interaction config.upper_limit_interaction %}</i></button> {% endif %}
+								{% if config.block_button != False %}  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.id}}-block-{{idParticipant}}" onclick="interaction(this.id)" ><i class="fa fa-ban">  {% random_int config.lower_limit_interaction config.upper_limit_interaction %}</i></button> {% endif %}
+								{% if config.follow_button != False %}  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.id}}-follow-{{idParticipant}}" onclick="interaction(this.id)"><i class="fa fa-user-plus"> {% random_int config.lower_limit_interaction config.upper_limit_interaction %}</i> </button> {% endif %}
+				
+                			</div>
+	     		 	</div>
 	     		 		
      		 	</div>
-            {% endfor %}
+        {% endfor %}
 			
      		</div>
 
@@ -92,11 +95,11 @@
    			 	<div class="left-20"> 
     			<a href="#"><small class="trend-title">Trending in Portugal</small></a>
       			<a href="#">
-       			<p class="trend-list">Cristina Ferreira</p>
+       			<p class="trend-list">Lorem ipsum</p>
      		    </a>
              <a href="#"><small class="trend-title">Trending in Portugal</small></a>
              <a href="#">
-              <p class="trend-list">The weekend</p>
+              <p class="trend-list">Lorem ipsum</p>
               </a>
 				</div>
             </div>
@@ -133,14 +136,17 @@
 
 
 
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
- </body>
-
+<script type="text/javascript">
+	function showRandomNumber(id){
+				alert("Image is loaded");
+                document.getElementById(id).innerHTML = 3
+            }
+		</script>
 
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -151,7 +157,17 @@
 	} 
 </script>
 
+<script type="text/javascript">
+	 console.log("in Load function 2");
+
+    var min=4;
+    var max=7; 
+    var random = Math.floor(Math.random() * (+max - +min)) + +min;
+	document.getElementById("random").innerHTML = random;
+
+</script>  
+
 
 {% endblock %}
 
-</script>
+

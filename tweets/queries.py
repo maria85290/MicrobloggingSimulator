@@ -3,10 +3,39 @@ from .models import *
 import datetime
  
 
+###################################################
+####  Queries de alteração da configuração do ambiente de estudo
+###################################################
 
+
+def get_configuration (configName):
+    try:
+        conf = Configuration.objects.get(configName = configName)
+    except Configuration.DoesNotExist:
+        return False, "Config does not exit"
+    
+    return True, conf
+
+
+
+def get_environment ():
+    try:
+        env = Environment.objects.get()
+    except Environment.DoesNotExist:
+        return False, "Environment does not exit"
+    
+    return True, env
+
+
+
+
+###################################################
+####  Queries para consulta dos dados 
+###################################################
 
 def get_posts (numberPosts):
     try:
+        ## N posts aletorios
         post = Post.objects.all().order_by('?')[:numberPosts]
     except Post.DoesNotExist:
         return False, "Post does not exit"

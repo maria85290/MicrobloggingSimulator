@@ -15,8 +15,9 @@ from .serializers import *
 # Create your views here.
 
  
-import uuid
 from django.views.decorators.csrf import csrf_protect
+import random
+
 
 '''
 Render participate page
@@ -27,17 +28,21 @@ participantId = 00
 @csrf_protect
 def participate(request,*args, **kwargs):
         
-        state, message, id = add_participant ()
 
+        state, message, id = add_participant ()
         print(message)
-        ## Numero de posts a mostar
-        n = 2
-        
+
+
+        state, env = get_environment()
+
+        state, config = get_configuration(env.configuration.configName)
+
+        print(config.user_picture)
         ## vai buscar a base de dados n posts aleatorios.
-        state, posts = get_posts(n)
+        state, posts = get_posts(config.posts_number)
       
 
-        return render (request, "tweet/participate.html", {"posts":posts, "idParticipant":id})
+        return render (request, "tweet/participate.html", {"posts":posts, "idParticipant":id, "config":config})
       
 
 def add_interaction (request, *args, **kwargs):
