@@ -31,6 +31,27 @@ ALLOWED_HOSTS=['*']
 
 CORS_ORIGIN_ALLOW_ALL = True
 # Application definition
+import os
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'info.log',
+        },
+        
+    },
+    'loggers': {
+        'tweets': {
+            'handlers': ['file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+    },
+}
 
 INSTALLED_APPS = [
     'django.contrib.admin',

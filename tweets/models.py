@@ -20,7 +20,7 @@ class Configuration (models.Model):
     block_button =  models.BooleanField(default = 0)  
     follow_button =  models.BooleanField(default = 0)  
     retweet_button =  models.BooleanField(default = 0)  
-    posts_number = models.IntegerField(default=1)
+    posts_number = models.IntegerField(default = 1)
     lower_limit_interaction = models.IntegerField(default=1)    #limite inferior de numero de interações
     upper_limit_interaction = models.IntegerField(default=1)     # limite superior número de interações
 
@@ -44,7 +44,7 @@ class Mouse_tracking (models.Model):
 
 class Post (models.Model):
     content  = models.CharField(max_length=280) 
-    image = models.CharField(max_length=50,  default=" ")
+    image = models.CharField(max_length=50, null=True)
 
 class Hashtag(models.Model):
     post =  models.ForeignKey(Post, on_delete=models.CASCADE)
@@ -58,4 +58,5 @@ class Interaction (models.Model):
     post =  models.ForeignKey(Post, on_delete=models.CASCADE)
     participant =  models.ForeignKey(Participant, on_delete=models.CASCADE)
     replyContent = models.CharField(max_length=280, default=" ") 
+    configuration = models.ForeignKey(Configuration, on_delete=models.CASCADE)
 

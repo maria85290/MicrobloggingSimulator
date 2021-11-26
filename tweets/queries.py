@@ -71,17 +71,19 @@ def add_interactions(data):
     postID = data.get('postId')
     action_type_id = get_actionType_id(data.get('actionType'))[1]
     participantID = data.get ('participantId') 
+    configuration = data.get ('configuration') 
 
     print(postID)
     print(action_type_id)
     print(participantID)
+    print(configuration)
 
     if data.get('actionType') == "reply":
         reply_content = data.get("reply_content") 
     
     try:
-        Interaction.objects.create(actionType_id = action_type_id, replyContent = " ",post_id = postID, participant_id = participantID )
-        state_message = "Objeto inserido com sucesso"
+        Interaction.objects.create(actionType_id = action_type_id, replyContent = " ",post_id = postID, participant_id = participantID,  configuration = configuration)
+        state_message = "Interaction registered successfully!"
     
     except Exception:
         error_message = "Error while creating new interaction!"

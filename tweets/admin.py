@@ -1,6 +1,7 @@
 from django.contrib import admin
-
+from django.contrib.admin.models import LogEntry, ADDITION, CHANGE
 from .models import *
+
 
 admin.site.register(Participant)
 admin.site.register(Mouse_tracking)
