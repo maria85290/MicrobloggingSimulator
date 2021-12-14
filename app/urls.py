@@ -24,7 +24,10 @@ urlpatterns = [
     path('about', views.about_view, name ="about"),
     path('participate', participate, name ="posts"),
     path('add_interaction', add_interaction, name ="add_interaction"),
+    path('add_post_by_user', add_post_by_user, name ="add_post_by_user"),
+    path('add_reply', add_reply, name ="add_reply"),
     path('contact', views.contact_view, name ="contact"),
+    path('update_session', update_session, name ="update_session"),
 
     path('admin/', admin.site.urls)
 ]

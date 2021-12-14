@@ -1,12 +1,31 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.core.mail import send_mail,  EmailMessage
+import uuid
+
+from tweets import queries
+import random
+
+
 
 '''
 Render Home page 
 '''
-def home_view(request,*args, **kwargs):
-    print(request.user)
+def home_view(request,*args, **kwargs):    
+    ## Verificar se o user tem secção
+    request.session.clear()
+
+    if request.session.get('id_user') and queries.get_participante (request.session.get('id_user')) == True:
+            print(" [Session] Este utilizador ja tem session")
+
+        
+    else:
+        ## creat session with the user id
+        id, message = queries.add_participant()
+        request.session['id_user'] = id
+        print(id)
+        print(message)
+   
     return render (request, "home.html", {})
 
 
@@ -28,6 +47,10 @@ def about_view(request,*args, **kwargs):
 Render contact form and send e-mail
 '''
 def contact_view(request,*args, **kwargs):
+    if request.session.test_cookie_worked():
+                print ("The test cookie worked!!!")
+                request.session.delete_test_cookie()
+
     if request.method =="POST":
         Name   = request.POST['Name']
         Email  = request.POST['Email']
@@ -43,6 +66,7 @@ def contact_view(request,*args, **kwargs):
             Email, #from Email
             ['mei.proj2122@gmail.com'], #TO Email
         )
+
 
         return render (request, "contact.html", {"name": Name})
 

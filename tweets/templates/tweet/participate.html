@@ -10,22 +10,23 @@
   
 	<div class="nav" id="nav">
 		<ul class="navbar-nav">
-			<li><a href="#">
+			<li>
 				<!--i class="fa fa-twitter"></i><span class="link-text close" onclick="closeNav()">X</span -->
-				<img src="{% static 'images/bird.png' %}" class="w3-right w3-circle w3-margin-right" style="width:80px"></img><span class="link-text close" onclick="closeNav()">X</span>
-			</a></li>
+				<img src="{% static 'images/bird.png' %}" class="w3-right w3-circle w3-margin-right" style="width:80px"></img>
+			</li>
 
-			<li><a href="#"><i class="fa fa-home"></i><span class="link-text">Home</span></a></li>
-			<li><a href="#"><i class="fa fa-rocket"></i><span>Explore</span class="link-text"></a></li>
-			<li><a href="#"><i class="fa fa-bell"></i><span class="link-text">Notifications</span></a></li>
-			<li><a href="#"><i class="fa fa-twitter"></i><span class="link-text">Messages</span></a></li>
-			<li><a href="#"><i class="fa fa-bookmark"></i><span class="link-text">Bookmarks</span></a></li>
-			<li><a href="#"><i class="fa fa-list"></i><span class="link-text">Lists</span></a></li>
-			<li><a href="#"><i class="fa fa-user"></i><span class="link-text">Profile</span></a></li>
-			<li><a href="#"><i class="fa fa-arrow-up"></i><span class="link-text">More</span></a></li>
-			<li class="link-tweets"><a href="#"><i class="fa fa-plus"></i><span class="link-text">Cheep</span></a></li>
+			<li><a href="#" onclick="document.getElementById('uncreated_section').style.display='block'"><i class="fa fa-home"></i>Home</a></li>
+			<li><a href="#"onclick="document.getElementById('uncreated_section').style.display='block'"><i class="fa fa-rocket"></i><span>Explore</span class="link-text"></a></li>
+			<li><a href="#" onclick="document.getElementById('uncreated_section').style.display='block'"><i class="fa fa-bell"></i><span class="link-text">Notifications</span></a></li>
+			<li><a href="#" onclick="document.getElementById('uncreated_section').style.display='block'"><i class="fa fa-twitter"></i><span class="link-text">Messages</span></a></li>
+			<li><a href="#" onclick="document.getElementById('uncreated_section').style.display='block'"><i class="fa fa-bookmark"></i><span class="link-text">Bookmarks</span></a></li>
+			<li><a href="#" onclick="document.getElementById('uncreated_section').style.display='block'"><i class="fa fa-list"></i><span class="link-text">Lists</span></a></li>
+			<li><a href="#" onclick="document.getElementById('uncreated_section').style.display='block'"><i class="fa fa-user"></i><span class="link-text">Profile</span></a></li>
+			<li><a href="#" onclick="document.getElementById('uncreated_section').style.display='block'"><i class="fa fa-arrow-up"></i><span class="link-text">More</span></a></li>
+			<li class="link-tweets"><a href="#" onclick="document.getElementById('uncreated_section').style.display='block'"><i class="fa fa-plus"></i><span class="link-text">Cheep</span></a></li>
 
 		</ul>		
+		
 	</div>
 
 
@@ -37,28 +38,55 @@
 				<button class="btns" onclick="openNav()">☰ </button>
      		 </div>
 
-     	
-     		 <div class="add-tweet">
+		  {% if config.space_for_creat_post != False %}
+     	  <div class="add-tweet">
      		 	<span class="add-tweet-image">
-			<img src= "{% random_image config.user_picture %}"  alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
+			<img src= "static/users/default_user.png"  alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
             <!--img src="{% static 'users/images/img_avatar1.png' %}" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px"-->
           </span>
-     		 	<div class="add-tweet-input">
+		 	 <div>
+     		 	<form action="/add_post_by_user" method="post"> {% csrf_token %}
      		 		<div>
-                        <textarea type="text" rows="1" cols="30"  placeholder =" What's happening ?"></textarea>
+                        <textarea  rows="4" cols="70" name = "post_by_user"  maxlength="280" placeholder =" What's happening ?"></textarea>
      		 		</div>
      		 		<div>
      		 			<ul class="add-tweet-icon">
-
-							  <li class="link-tweet"><span>Cheep</span></li>
-
+							  <input type="submit" value = "Cheep" class="link-tweet" ><span></span></li>
      		 			</ul>
 						
      		 		</div>
      		 	</div>
+				</form>
      		 </div>
+			{% endif %} 
           
-     		<!--Twetts-->
+
+
+     		<!--Twetts by user-->
+	
+
+		{% for tweet in posts_by_user reversed %}
+		<div class="actual-tweet">
+			<span class="add-tweet-image">
+				<img src = "static/users/default_user.png" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
+		</span>
+			<div class="tweet-content">
+					<a href="#">You</a> <span class="side-name"> | 2 hrs </span>
+					<p>{{tweet.content}}</p>
+					<div class="w3-center">
+					<button type="button" class="w3-button w3-theme-d2 w3-margin-bottom" onclick="document.getElementById('irrelevant_option').style.display='block'"><i class="fa fa-comment"> 0 </i>  </button>    
+					<button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" onclick="document.getElementById('irrelevant_option').style.display='block'"><i class="fa fa-retweet">  0</i>  </button> 
+					<button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" onclick="document.getElementById('irrelevant_option').style.display='block'"> <i class="fa fa-heart"> 0</i> </button> 
+					<button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" onclick="document.getElementById('irrelevant_option').style.display='block'"><i class="fa fa-share"> 0</i></button> 
+					<button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" onclick="document.getElementById('irrelevant_option').style.display='block'" ><i class="fa fa-ban">  0</i></button>
+					<button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" onclick="document.getElementById('irrelevant_option').style.display='block'"><i class="fa fa-user-plus"> 0</i> </button> 
+
+				</div>
+			</div>
+				
+		</div>
+		{% endfor %}
+			<!--Twetts narratives-->
 
         {% for tweet_text in posts%}
      		 	<div class="actual-tweet">
@@ -67,14 +95,14 @@
             		</span>
 	     		 	<div class="tweet-content">
 	     		 			<a href="#">{% random_name%}</a> <span class="side-name"> | 14 hrs </span>
-	     		 			<p>{{tweet_text.content}}</p>
+	     		 			<p id = "post_content">{{tweet_text.fields.content}}</p>
 	     		 			<div class="w3-center">
-								{% if config.reply_button != False %}  <button type="button" class="w3-button w3-theme-d2 w3-margin-bottom" id = "{{tweet_text.id}}-reply-{{idParticipant}}" onclick="interaction(this.id)"><i class="fa fa-comment">  {% random_int config.lower_limit_interaction config.upper_limit_interaction %} </i>  </button>    {% endif %} 
-								{% if config.retweet_button != False %}  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.id}}-retweet-{{idParticipant}}" onclick="interaction(this.id)"><i class="fa fa-retweet">  {% random_int config.lower_limit_interaction config.upper_limit_interaction %}</i>  </button> {% endif %}
-								{% if config.like_button != False %}  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.id}}-like-{{idParticipant}}" onclick="interaction(this.id)" > <i class="fa fa-heart"> {% random_int config.lower_limit_interaction config.upper_limit_interaction %}</i> </button> {% endif %}
-								{% if config.share_button != False %}  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.id}}-share-{{idParticipant}}" onclick="interaction(this.id)"><i class="fa fa-share"> {% random_int config.lower_limit_interaction config.upper_limit_interaction %}</i></button> {% endif %}
-								{% if config.block_button != False %}  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.id}}-block-{{idParticipant}}" onclick="interaction(this.id)" ><i class="fa fa-ban">  {% random_int config.lower_limit_interaction config.upper_limit_interaction %}</i></button> {% endif %}
-								{% if config.follow_button != False %}  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.id}}-follow-{{idParticipant}}" onclick="interaction(this.id)"><i class="fa fa-user-plus"> {% random_int config.lower_limit_interaction config.upper_limit_interaction %}</i> </button> {% endif %}
+								{% if config.reply_button != False %}  <button type="button" id="{{tweet_text.pk}}" onclick="update_session_comment_post(this.id);document.getElementById('comment').style.display='block'" class="w3-button w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment">  {% random_int config.lower_limit_interaction config.upper_limit_interaction %} </i>  </button>    {% endif %} 
+								{% if config.retweet_button != False %}  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.pk}}-retweet" onclick="interaction(this.id)"><i class="fa fa-retweet">  {% random_int config.lower_limit_interaction config.upper_limit_interaction %}</i>  </button> {% endif %}
+								{% if config.like_button != False %}  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.pk}}-like" onclick="interaction(this.id)" > <i class="fa fa-heart"> {% random_int config.lower_limit_interaction config.upper_limit_interaction %}</i> </button> {% endif %}
+								{% if config.share_button != False %}  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.pk}}-share" onclick="interaction(this.id)"><i class="fa fa-share"> {% random_int config.lower_limit_interaction config.upper_limit_interaction %}</i></button> {% endif %}
+								{% if config.block_button != False %}  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.pk}}-block" onclick="interaction(this.id)" ><i class="fa fa-ban">  {% random_int config.lower_limit_interaction config.upper_limit_interaction %}</i></button> {% endif %}
+								{% if config.follow_button != False %}  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.pk}}-follow" onclick="interaction(this.id)"><i class="fa fa-user-plus"> {% random_int config.lower_limit_interaction config.upper_limit_interaction %}</i> </button> {% endif %}
 				
                 			</div>
 	     		 	</div>
@@ -108,16 +136,7 @@
         <div class="help">
         <p><button class="w3-button w3-black w3-round-xxlarge" onclick="document.getElementById('Help').style.display='block'">Do you need help?</button></p>
       </div>
-      	<!-- This work page-->
-      <div id="Help" class="w3-modal w3-animate-opacity">
-        <div class="w3-modal-content" style="padding:32px">
-            <div class="w3-container w3-white">
-            <i onclick="document.getElementById('Help').style.display='none'" class="fa fa-remove w3-transparent w3-button w3-xlarge w3-right"></i>
-            <h2 class="w3-center">Help page</h2>
-            <p style="text-align: justify;text-justify: inter-word;  font-family: Arial, Helvetica, sans-serif"> Dar istruçoes de uso das funcionalidades</p> 
-            </div>
-        </div>
-      </div>
+      
 
 		   
 		 </div>
@@ -131,22 +150,127 @@
 			</ul>
 		</div>
 
+	<!----------------------------- This Healp page-------------------->
+	<div id="Help" class="w3-modal w3-animate-opacity">
+		<div class="w3-modal-content" style="padding:32px">
+			<div class="w3-container w3-white">
+			<i onclick="document.getElementById('Help').style.display='none'" class="fa fa-remove w3-transparent w3-button w3-xlarge w3-right"></i>
+			<h2 class="w3-center">Help page</h2>
+			<br>
+			<br>
+			<p style="text-align: justify;text-justify: inter-word;  font-family: Arial, Helvetica, sans-serif"> 
+			As a user, you can interact with the featured content in several ways.
+			Either interact to a post by clicking on the "Like" button or one of the various alternatives such as "Reply" or "Share".</p> 
+			<p style="text-align: justify;text-justify: inter-word;  font-family: Arial, Helvetica, sans-serif">
+				You can also share a post on the platform and write comments on previously published posts.</p>
+			<p style="text-align: justify;text-justify: inter-word;  font-family: Arial, Helvetica, sans-serif">
+				If you are not familiar with the microblog interaction icons, see the list below for an explanation of each one.</p>
+				<ul class="w3-center">
+					<li>
+						<i class="fa fa-comment"><b style="text-align: justify;text-justify: inter-word;  font-family: Arial, Helvetica, sans-serif"> Reply </b> Comment the posts </i>
+					</li>
+					<li>
+						<i class="fa fa-retweet"><b style="text-align: justify;text-justify: inter-word;  font-family: Arial, Helvetica, sans-serif"> Retweet </b> Share the posts to your friends </i>
+					</li>
+					<li>
+						<i class="fa fa-heart"><b style="text-align: justify;text-justify: inter-word;  font-family: Arial, Helvetica, sans-serif"> Like </b> Like the post </i>
+					</li>
+					<li>
+						<i class="fa fa-share"><b style="text-align: justify;text-justify: inter-word;  font-family: Arial, Helvetica, sans-serif"> Share </b> Send post by private message </i>
+					</li>
+					<li>
+						<i class="fa fa-ban"><b style="text-align: justify;text-justify: inter-word;  font-family: Arial, Helvetica, sans-serif"> Block </b> Block the author of the post </i>
+					</li>
+					<li>
+						<i class="fa fa-user-plus"><b style="text-align: justify;text-justify: inter-word;  font-family: Arial, Helvetica, sans-serif"> Follow </b> Follow the user </i>
+					</li>
+				</ul>
+			<p style="text-align: justify;text-justify: inter-word;  font-family: Arial, Helvetica, sans-serif">
+				You may have noticed that some features characteristic of a microblog have not been implemented because they are not relevant to
+				 the current study. Nevertheless, these sections are correctly labeled.</p> 
+			</div>
+		</div>
+		</div>
+
 
 </div> 
 
 
+<!-------------------------------------- JS .......................................................................................-->
 
+<!-------------------------------------- Uncreated section ..........................-->
+<div id="uncreated_section" class="w3-modal">
+	<div class="w3-modal-content  w3-animate-left" style="padding:10px">
+		<div class="w3-container w3-white">
+		<i onclick="document.getElementById('uncreated_section').style.display='none'" class="fa fa-remove w3-transparent w3-button w3-xlarge w3-right"></i>
+		<h2 class="</li>">Uncreated section</h2>
+		<p> </p>
+		<p> </p>
+		<p> </p>
+		
+		<p style="text-align: justify;text-justify: inter-word;  font-family: Arial, Helvetica, sans-serif"><a href="https://emoji.gg/emoji/7908_OOPS"><img src="https://emoji.gg/assets/emoji/7908_OOPS.png" width="100px" height="100px" alt="OOPS"></a> This section was not implemented since it's not relevant to this study.</p> 
+		</div>
+	</div>
+  </div>
+
+  <!-------------------------------------...................-->
+
+
+  <!-------------------------------------- Uncreated section ..........................-->
+<div id="irrelevant_option" class="w3-modal">
+	<div class="w3-modal-content  w3-animate-left" style="padding:10px">
+		<div class="w3-container w3-white">
+		<i onclick="document.getElementById('irrelevant_option').style.display='none'" class="fa fa-remove w3-transparent w3-button w3-xlarge w3-right"></i>
+		<h2 class="w3-center">Irrelevant Option</h2>
+		<p> </p>
+		<p> </p>
+		<p> </p>
+		
+		<p style="text-align: justify;text-justify: inter-word;  font-family: Arial, Helvetica, sans-serif"><a href="https://emoji.gg/emoji/7908_OOPS"><img src="https://emoji.gg/assets/emoji/7908_OOPS.png" width="100px" height="100px" alt="OOPS"></a> This option was not implemented since it's not relevant to this study.</p> 
+		</div>
+	</div>
+  </div>
+  <!-------------------------------------...................-->
+
+<!------------------------------------- Comment option...................-->
+
+
+<div id="comment" class="w3-modal">
+	<div class="w3-modal-content  w3-animate-left" style="padding:10px">
+		<div class="w3-container w3-white">
+		<i onclick="document.getElementById('comment').style.display='none'" class="fa fa-remove w3-transparent w3-button w3-xlarge w3-right"></i>
+		<h2 class="w3-center"></h2>
+
+			<form action="/add_reply" method="post">
+			<div>
+			  <textarea  rows="4" cols="100" id = "comment_content" name = "comment"  maxlength="280" placeholder ="Write a comment..."></textarea>
+			</div>
+			<div>
+				<ul class="add-tweet-icon">
+					<input type="submit" value = "Cheep"  class="link-tweet" ><span></span></li>
+				</ul>
+			</div>
+		</form>
+		</div>
+		</div>
+	</div>
+  </div>
+
+  
+	<script type=text/javascript>
+	  // Esta funçao vai permitir o id do post a comentar em sessão. 
+		function update_session_comment_post(id_post) { 
+			$.get('update_session', id_post);
+		} 
+	</script>
+ 
+ 
+
+  <!-- ----------------------------------------------->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
-<script type="text/javascript">
-	function showRandomNumber(id){
-				alert("Image is loaded");
-                document.getElementById(id).innerHTML = 3
-            }
-		</script>
 
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
