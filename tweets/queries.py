@@ -1,13 +1,19 @@
 from types import CodeType
 from .models import *
 import datetime
+
+'''
+Ficheiro que contêm queries a consulta a base de dados
+'''
  
 
 ###################################################
 ####  Queries de alteração da configuração do ambiente de estudo
 ###################################################
 
-
+'''
+Funçao que recebe o nome da configuração e devolve o objeto 
+'''
 def get_configuration (configName):
     try:
         conf = Configuration.objects.get(configName = configName)
@@ -17,7 +23,9 @@ def get_configuration (configName):
     return True, conf
 
 
-
+'''
+Funçao que devolve o ambiente
+'''
 def get_environment ():
     try:
         env = Environment.objects.get()
@@ -33,15 +41,21 @@ def get_environment ():
 ####  Queries para consulta dos dados 
 ###################################################
 
+'''
+Funçao que devolve os posts com um dados id 
+'''
 def get_post (post_id):
     try:
         ## N posts aletorios
-        post = Post.objects.get(id = post_id)
+        post = Post.objects.filter(id = post_id)
     except Post.DoesNotExist:
         return False, "Post does not exit"
     return post
 
 
+'''
+Recebe um inteiro (numberPosts) e devolve esse número em posts
+'''
 def get_posts (numberPosts):
     try:
         ## N posts aletorios
@@ -50,7 +64,12 @@ def get_posts (numberPosts):
         return False, "Post does not exit"
 
     return True, post
-    
+
+
+
+'''
+Recebe o id de um utilizador e devolve os posts realizados por ele
+'''
 def get_posts_by_users (id_user):
     print("entrei na querie")
 
@@ -62,6 +81,10 @@ def get_posts_by_users (id_user):
     
     return True, post
 
+
+'''
+Recebe o id de um utilizador e devolve o objeto 
+'''
 def get_participante (id_user):
     try:
         part = Participant.objects.get(id = id_user)
@@ -69,6 +92,9 @@ def get_participante (id_user):
         return False, "Participat does not exit"
     
     return part
+
+
+
 
 def get_actionType_id (nameAction):
     try:
@@ -80,6 +106,9 @@ def get_actionType_id (nameAction):
     return True, action.id
 
 
+'''
+Adiciona um novo participante a base de dados, sempre que o mesmo aceder
+'''
 def add_participant ():
     
     try:
@@ -94,6 +123,9 @@ def add_participant ():
     return x.id, state_message
 
 
+'''
+Adiciona uma nova interação a base de dados
+'''
 def add_interactions(data):
  
     postID = data.get('postId')
@@ -101,15 +133,13 @@ def add_interactions(data):
     participantID = data.get ('participantId') 
     configuration = data.get ('configuration') 
 
-    print(postID)
-    print(action_type_id)
-    print(participantID)
-    print(configuration)
+   # print(postID)
+  #  print(action_type_id)
+  #  print(participantID)
+  #  print(configuration)
 
-    part = get_participante (participantID)
-    post = get_post(postID)
 
-    print(part, post)
+  #  print(part, post)
 
     reply_content = " "
 
@@ -127,6 +157,10 @@ def add_interactions(data):
     return True, state_message
 
 
+
+'''
+Adiciona o conteudo postado por um dados utilizador a base de dados
+'''
     
 def add_post_by_user(data):
     print("entrou na query")
@@ -135,7 +169,7 @@ def add_post_by_user(data):
   #  configuration = data.get ('configuration') 
     post_content = data.get('post')
 
-    print(post_content, participantID)
+    #print(post_content, participantID)
 
     try:
         Post_by_participant.objects.create(participant_id = participantID, content = post_content)

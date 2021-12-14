@@ -26,14 +26,9 @@ logger = logging.getLogger(__name__)
 
 @csrf_protect
 def participate(request,*args, **kwargs):
-        logger.warning('Participate Page was accessed at '+str(datetime.datetime.now())+' hours!')
 
-     
-       # if state ==True:
-        #        request.session['posts_by_user'] = serializers.serialize ('json',posts)
+        logger.warning ('['+str(datetime.datetime.now())+']' + 'userId:' + str(request.session.get('id_user')))
 
-       # print ("REQUEST POST USER",request.session.get('posts_by_user') )
-        
         if request.session.get('env'):
                 print(" [Session] An environment has already been generated for this session")
      
@@ -48,15 +43,21 @@ def participate(request,*args, **kwargs):
                 request.session['env'] = env.id
                 request.session['conf'] = model_to_dict(config)
                 request.session['posts'] =  serializers.serialize('json',posts)  
-        #print (request.session['posts'])
 
         state, posts_by_user = queries.get_posts_by_users (request.session.get('id_user'))
-        print (posts_by_user)
+      #  print (posts_by_user)
 
         ## Verificar se o user tem posts realizados por ele para apresentar
         state, posts_by_user = queries.get_posts_by_users(request.session.get('id_user'))
+
+        context = {
+          "posts":json.loads(request.session.get('posts')),
+         "posts_by_user" : posts_by_user, 
+         "idParticipant":request.session.get('id_user'),
+         "config":request.session.get('conf')
+        }
         
-        return render (request, "tweet/participate.html", {"posts":json.loads(request.session.get('posts')), "posts_by_user" : posts_by_user, "idParticipant":request.session.get('id_user'), "config":request.session.get('conf')})
+        return render (request, "tweet/participate.html", context)
       
 @api_view(['GET', 'POST'])
 def add_interaction (request, *args, **kwargs):
@@ -68,9 +69,16 @@ def add_interaction (request, *args, **kwargs):
         
         state, env = queries.get_environment()
 
-        state, message = queries.add_interactions({"postId": id_post, "participantId": request.session.get('id_user'),"actionType": action_type, "configuration":env.configuration })
+        logger.warning ('['+str(datetime.datetime.now())+']' + 'add_action:'+action_type+":"+str(id_post)+ ":" + str(request.session.get('id_user')))
 
-        logger.warning('['+str(datetime.datetime.now())+']' + message)
+        context = {"postId": id_post, 
+        "participantId": request.session.get('id_user'),
+        "actionType": action_type, 
+        "configuration":env.configuration 
+        }
+
+        state, message = queries.add_interactions(context)
+
         
         return render (request, "tweet/participate.html")
 
@@ -85,13 +93,15 @@ def add_reply (request, *args, **kwargs):
         if request.method == 'POST':
 
                 content=  request.data.get('comment')
-                print (content)
+                
                 state, env = queries.get_environment()
 
                 if request.session.get('post_to_comment'):
                         post_id =  request.session.get('post_to_comment')
                         state, message = queries.add_interactions({"postId": post_id, "participantId": request.session.get('id_user'),"reply_content":content, "actionType": "reply", "configuration":env.configuration })
-                        logger.warning('['+str(datetime.datetime.now())+']' + message)
+                        if state == True:
+                                logger.warning ('['+str(datetime.datetime.now())+']' + 'add_reply'+":" + str(request.session.get('id_user')) + ":" + str(post_id) + ":" + content  )
+         
         
         return redirect (participate)
         
@@ -103,10 +113,15 @@ def add_post_by_user (request, *args, **kwargs):
         if request.method == 'POST':
                 print("estrou no post") 
 
-                state, message = queries.add_post_by_user( {"post": request.data.get('post_by_user'), "userID": request.session.get('id_user')} )
+                context =  {
+                "post": request.data.get('post_by_user'), 
+                "userID": request.session.get('id_user')
+                }
 
-                ## Adicionar o conteudo a sessão
-                print(message)                
+                state, message = queries.add_post_by_user(context)
+                if state == True:
+                        logger.warning ('['+str(datetime.datetime.now())+']' + 'add_post_by_user'+":" + str(request.session.get('id_user')) + ":" + request.data.get('post_by_user')  )
+         
         return redirect (participate)
 
 '''

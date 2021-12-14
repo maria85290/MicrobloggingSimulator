@@ -1,19 +1,21 @@
+import datetime
+import logging
+
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.core.mail import send_mail,  EmailMessage
-import uuid
 
 from tweets import queries
-import random
 
 
 
 '''
 Render Home page 
 '''
-def home_view(request,*args, **kwargs):    
+def home_view(request,*args, **kwargs):  
+   
     ## Verificar se o user tem secção
-    request.session.clear()
+   ## request.session.clear()
 
     if request.session.get('id_user') and queries.get_participante (request.session.get('id_user')) == True:
             print(" [Session] Este utilizador ja tem session")
@@ -23,8 +25,10 @@ def home_view(request,*args, **kwargs):
         ## creat session with the user id
         id, message = queries.add_participant()
         request.session['id_user'] = id
-        print(id)
-        print(message)
+      #  print(id)
+      #  print(message)
+
+
    
     return render (request, "home.html", {})
 
