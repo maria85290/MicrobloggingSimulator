@@ -24,6 +24,8 @@ participantId = 00
 
 logger = logging.getLogger(__name__)
 
+
+
 @csrf_protect
 def participate(request,*args, **kwargs):
 

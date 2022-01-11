@@ -1,12 +1,3 @@
-<!DOCTYPE html>
-<?php
-  	$cookieExistente = (isert($_COOKIE['model'])) 
-	if (!$cookieExistente){
-		setcookie('modal','ok', startime('+1 days'))
-	}
-
-?>
-
 {% extends "base.html" %}
 
 {% block content %}
@@ -158,196 +149,65 @@
 		</div>
 
 	
-	<!----------------------------- This Healp page-------------------->
-	<div id="Help" class="w3-modal w3-animate-opacity">
-		<div class="w3-modal-content" style="padding:32px">
-			<div class="w3-container w3-white">
-			<i onclick="document.getElementById('Help').style.display='none'" class="fa fa-remove w3-transparent w3-button w3-xlarge w3-right"></i>
-			<h2 class="w3-center">Help page</h2>
-			<br>
-			<br>
-			<p style="text-align: justify;text-justify: inter-word;  font-family: Arial, Helvetica, sans-serif"> 
-			As a user, you can interact with the featured content in several ways.
-			Either interact to a post by clicking on the "Like" button or one of the various alternatives such as "Reply" or "Share".</p> 
-			<p style="text-align: justify;text-justify: inter-word;  font-family: Arial, Helvetica, sans-serif">
-				You can also share a post on the platform and write comments on previously published posts.</p>
-			<p style="text-align: justify;text-justify: inter-word;  font-family: Arial, Helvetica, sans-serif">
-				If you are not familiar with the microblog interaction icons, see the list below for an explanation of each one.</p>
-				<ul class="w3-center">
-					<li>
-						<i class="fa fa-comment"><b style="text-align: justify;text-justify: inter-word;  font-family: Arial, Helvetica, sans-serif"> Reply </b> Comment the post </i>
-					</li>
-					<li>
-						<i class="fa fa-retweet"><b style="text-align: justify;text-justify: inter-word;  font-family: Arial, Helvetica, sans-serif"> Retweet </b> Share the post to your friends </i>
-					</li>
-					<li>
-						<i class="fa fa-heart"><b style="text-align: justify;text-justify: inter-word;  font-family: Arial, Helvetica, sans-serif"> Like </b> Like the post </i>
-					</li>
-					<li>
-						<i class="fa fa-share"><b style="text-align: justify;text-justify: inter-word;  font-family: Arial, Helvetica, sans-serif"> Share </b> Send the post by private message </i>
-					</li>
-					<li>
-						<i class="fa fa-ban"><b style="text-align: justify;text-justify: inter-word;  font-family: Arial, Helvetica, sans-serif"> Block </b> Block the author of the post </i>
-					</li>
-					<li>
-						<i class="fa fa-user-plus"><b style="text-align: justify;text-justify: inter-word;  font-family: Arial, Helvetica, sans-serif"> Follow </b> Follow the author </i>
-					</li>
-				</ul>
-			<p style="text-align: justify;text-justify: inter-word;  font-family: Arial, Helvetica, sans-serif">
-				You may have noticed that some features characteristic of a microblog have not been implemented because they are not relevant to
-				 the current study. Nevertheless, these sections are correctly labeled.</p> 
-			</div>
-		</div>
-		</div>
-
+    
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <h1 style="text-align: center;">Hello, world!</h1>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+        </div>
+      </div>
+      </div>
 
 </div> 
 
 
-<!-------------------------------------- JS .......................................................................................-->
-
-<!-------------------------------------- Uncreated section ..........................-->
-<div id="uncreated_section" class="w3-modal">
-	<div class="w3-modal-content  w3-animate-left" style="padding:10px">
-		<div class="w3-container w3-white">
-		<i onclick="document.getElementById('uncreated_section').style.display='none'" class="fa fa-remove w3-transparent w3-button w3-xlarge w3-right"></i>
-		<h2 class="</li>">Uncreated section</h2>
-		<p> </p>
-		<p> </p>
-		<p> </p>
-		
-		<p style="text-align: justify;text-justify: inter-word;  font-family: Arial, Helvetica, sans-serif"><img src="https://emoji.gg/assets/emoji/7908_OOPS.png" width="100px" height="100px" alt="OOPS">This section was not implemented since it's not relevant to this study.</p> 
-		</div>
-	</div>
-  </div>
-
-  <!-------------------------------------...................-->
-
-
-  <!-------------------------------------- Uncreated section ..........................-->
-<div id="irrelevant_option" class="w3-modal">
-	<div class="w3-modal-content  w3-animate-left" style="padding:10px">
-		<div class="w3-container w3-white">
-		<i onclick="document.getElementById('irrelevant_option').style.display='none'" class="fa fa-remove w3-transparent w3-button w3-xlarge w3-right"></i>
-		<h2 class="w3-center">Irrelevant Option</h2>
-		<p> </p>
-		<p> </p>
-		<p> </p>
-		
-		<p style="text-align: justify;text-justify: inter-word;  font-family: Arial, Helvetica, sans-serif"><a href="https://emoji.gg/emoji/7908_OOPS"><img src="https://emoji.gg/assets/emoji/7908_OOPS.png" width="100px" height="100px" alt="OOPS"></a> This option was not implemented since it's not relevant to this study.</p> 
-		</div>
-	</div>
-  </div>
-  <!-------------------------------------...................-->
-
-<!------------------------------------- Comment option...................-->
-
-
-<div id="comment" class="w3-modal">
-	<div class="w3-modal-content  w3-animate-left" style="padding:10px">
-		<div class="w3-container w3-white">
-		<i onclick="document.getElementById('comment').style.display='none'" class="fa fa-remove w3-transparent w3-button w3-xlarge w3-right"></i>
-		<h2 class="w3-center"></h2>
-
-			<form action="/add_reply" method="post">
-			<div>
-			  <textarea  rows="4" cols="100" id = "comment_content" name = "comment"  maxlength="280" placeholder ="Write a comment..."></textarea>
-			</div>
-			<div>
-				<ul class="add-tweet-icon">
-					<input type="submit" value = "Cheep"  class="link-tweet" ><span></span></li>
-				</ul>
-			</div>
-		</form>
-		</div>
-		</div>
-	</div>
-  </div>
-
-
-  
-    <!-- Modal -->
-    <div class="modal fade" id="popup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-		
-			<div class="modal-body">
-			  <h5 style="text-align: center;"> This page would like your permission to track your navigation during your participation in the study.</h5>
-			  <p style="text-align: center;">Your data will only be used for the study context presented before.</p>
-			</div>
-			<div class="modal-footer">
-				 <input type="checkbox" id="age" value="1"> I certify that I am at least 18 years old.</label> 
-
-				<button type="button" id="ok_consent" class="w3-button w3-green" disabled>OK</button>
-				<button type="button"  class="w3-button w3-red" onclick="window.location='home'">Dont allow</button>
-			</div>
-			</div>
-		</div>
-		</div>
-
-
-	<script type=text/javascript>
-	  // Esta funçao vai permitir o id do post a comentar em sessão. 
-		function update_session_comment_post(id_post) { 
-			$.get('update_session', id_post);
-		} 
-	</script>
-
-
-
-
-
-
-
 
   <!-- ----------------------------------------------->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  
+  
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script type=text/javascript>
+   
+    function interaction(clicked_id) { 
+      $.get('add_interaction', clicked_id);
+    } 
+  </script>
+  
+  
+
+<!-------------------------------------- JS .......................................................................................-->
 
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script type=text/javascript>
+
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script>
+       $(document).ready(function(){
+            $('#exampleModal').modal('show');
+        }); 
+    </script>
+
+
+
  
-	function interaction(clicked_id) { 
-		$.get('add_interaction', clicked_id);
-	} 
-</script>
-
-
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-
-
-<script type="text/javascript">
-if (localStorage.getItem('consent') == null) {
-   $('#popup').modal({backdrop: 'static', keyboard: false});
-	
-
-  $('#ok_consent').on('click', function (e) {
-    $('#popup').modal('hide');
-    
-    localStorage.setItem('consent', true);
-    
-  });
-} 
-
-$('#age').click(function() {
-   //If the checkbox is checked.
-   if ($(this).is(':checked')) {
-		$('#ok_consent').prop('disabled', false);
-	} else {
-		$('#ok_consent').prop('disabled', true);
-	}
-})
-</script>
-
-
-
-
-
 
 
 {% endblock %}
