@@ -26,6 +26,8 @@ def participate(request,*args, **kwargs):
 
       
         if request.session.get('env'):
+              
+              
                 print(" [Session] An environment has already been generated for this session")
      
         else:     
@@ -75,7 +77,7 @@ def add_interaction (request, *args, **kwargs):
         query = request.GET.urlencode().split('-')
         id_post = query[0]
         action_type = query[1][:-1]
-        print (action_type)
+        ## print (action_type)
         
         state, env = queries.get_environment()
 
@@ -92,7 +94,7 @@ def add_interaction (request, *args, **kwargs):
                 logger.warning ('['+str(datetime.datetime.now())+']' + 'add_action:'+action_type+":"+str(id_post)+ ":" + str(request.session.get('id_user')))
 
 
-        print (message)
+       ##  print (message)
         return render (request, "tweet/participate.html")
 
 
@@ -113,9 +115,9 @@ def add_reply (request, *args, **kwargs):
                 state, env = queries.get_environment()
 
                 if request.session.get('post_to_comment'):
-                        print ("ola")
+                       
                         post_id =  request.session.get('post_to_comment')
-                        print ("post_id")
+                        ## print ("post_id")
                         state, message = queries.add_interactions({"post_id": post_id, "participant_id": request.session.get('id_user'),"reply_content":content, "actionType_id": "reply", "configuration_id":env.configuration })
                         if state == True:
                                 logger.warning ('['+str(datetime.datetime.now())+']' + 'add_reply'+":" + str(post_id) + ":" + str(request.session.get('id_user')) +  ":" + content.strip()  )
@@ -132,7 +134,6 @@ def add_post_by_user (request, *args, **kwargs):
         
         
         if request.method == 'POST':
-                print("estrou no post") 
 
                 context =  {
                 "post": request.data.get('post_by_user'), 
