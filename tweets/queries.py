@@ -2,17 +2,13 @@ from types import CodeType
 from .models import *
 import datetime
 
-'''
-Ficheiro que contêm queries a consulta a base de dados
-'''
- 
 
 ###################################################
-####  Queries de alteração da configuração do ambiente de estudo
+#### Study environment configuration change queries
 ###################################################
 
 '''
-Funçao que recebe o nome da configuração e devolve o objeto 
+Function that receives the name of the configuration and returns the object
 '''
 def get_configuration (configName):
     try:
@@ -24,7 +20,7 @@ def get_configuration (configName):
 
 
 '''
-Funçao que devolve o ambiente
+Function that returns the obj environment
 '''
 def get_environment ():
     try:
@@ -42,7 +38,7 @@ def get_environment ():
 ###################################################
 
 '''
-Funçao que devolve os posts com um dados id 
+Function that returns the post with id = post_id
 '''
 def get_post (post_id):
     try:
@@ -53,8 +49,17 @@ def get_post (post_id):
     return post
 
 
+def get_actionType_id (nameAction):
+    try:
+        action = Action_type.objects.get(name = nameAction)
+
+    except Action_type.DoesNotExist:
+        return False, "Action does not exit"
+
+    return True, action.id
+
 '''
-Recebe um inteiro (numberPosts) e devolve esse número em posts
+Receives an integer (numberPosts) and returns that number in posts
 '''
 def get_posts (numberPosts):
     try:
@@ -68,10 +73,11 @@ def get_posts (numberPosts):
 
 
 '''
-Recebe o id de um utilizador e devolve os posts realizados por ele
+Receives a user's id and returns the posts made by him
 '''
+
 def get_posts_by_users (id_user):
-    print("entrei na querie")
+    #print("entrei na querie")
 
     try:
         ## N posts aletorios
@@ -82,8 +88,10 @@ def get_posts_by_users (id_user):
     return True, post
 
 
+
+
 '''
-Recebe o id de um utilizador e devolve o objeto 
+Receives a user's id and returns the corresponding object
 '''
 def get_participante (id_user):
     try:
@@ -96,24 +104,15 @@ def get_participante (id_user):
 
 
 
-def get_actionType_id (nameAction):
-    try:
-        action = Action_type.objects.get(name = nameAction)
-
-    except Action_type.DoesNotExist:
-        return False, "Action does not exit"
-
-    return True, action.id
 
 
 '''
-Adiciona um novo participante a base de dados, sempre que o mesmo aceder
+Add a new participant to the database
 '''
 def add_participant ():
     
     try:
         x = Participant.objects.create(personality = 0, beginTime = datetime.datetime.now(), endTime =  '00:00:00' )
-        print(x.id)
     except Exception:
         error_message = "Error while creating new participant!"
         return False, error_message
@@ -124,32 +123,23 @@ def add_participant ():
 
 
 '''
-Adiciona uma nova interação a base de dados
+Add a new interaction to the database
 '''
 def add_interactions(data):
  
-    postID = data.get('postId')
-    action_type_id = get_actionType_id(data.get('actionType'))[1]
-    participantID = data.get ('participantId') 
-    configuration = data.get ('configuration') 
-
-   # print(postID)
-  #  print(action_type_id)
-  #  print(participantID)
-  #  print(configuration)
+    postID = data.get('post_id')
+    action_type_id = get_actionType_id(data.get('actionType_id'))[1]
+    participantID = data.get ('participant_id') 
+    configuration = data.get ('configuration_id') 
 
 
-  #  print(part, post)
-
-    reply_content = " "
-
-    if data.get('actionType') == "reply":
-        reply_content = data.get("reply_content") 
     
     try:
-        Interaction.objects.create(actionType_id = action_type_id, replyContent = reply_content,post_id = postID, participant_id = participantID,  configuration = configuration)
+        interaction= Interaction.objects.create(actionType_id = action_type_id,  configuration_id = configuration.id,  participant_id = participantID, post_id = postID)
         state_message = "Interaction registered successfully!"
-    
+        if data.get ('reply_content'):
+            action_reply.objects.create(interaction_id = interaction.id, content = data.get('reply_content'))
+           
     except Exception:
         error_message = "Error while creating new interaction!"
         return False, error_message
@@ -159,11 +149,11 @@ def add_interactions(data):
 
 
 '''
-Adiciona o conteudo postado por um dados utilizador a base de dados
+Adds the content posted by a user data to the database
 '''
     
 def add_post_by_user(data):
-    print("entrou na query")
+    #print("entrou na query")
 
     participantID = data.get ('userID') 
   #  configuration = data.get ('configuration') 
@@ -172,6 +162,7 @@ def add_post_by_user(data):
     #print(post_content, participantID)
 
     try:
+        
         Post_by_participant.objects.create(participant_id = participantID, content = post_content)
         state_message = "Post by Participant registered successfully!"
     

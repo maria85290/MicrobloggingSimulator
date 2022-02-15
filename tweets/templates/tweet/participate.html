@@ -1,11 +1,4 @@
 <!DOCTYPE html>
-<?php
-  	$cookieExistente = (isert($_COOKIE['model'])) 
-	if (!$cookieExistente){
-		setcookie('modal','ok', startime('+1 days'))
-	}
-
-?>
 
 {% extends "base.html" %}
 
@@ -97,21 +90,21 @@
 		{% endfor %}
 			<!--Twetts narratives-->
 
-        {% for tweet_text in posts%}
+        {% for tweet_text, num, name, photo in posts%}
      		 	<div class="actual-tweet">
 	     		 	<span class="add-tweet-image">
-              			<img src = "{% random_image config.user_picture %}" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
+              			<img src = "{{photo}}" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
             		</span>
 	     		 	<div class="tweet-content">
-	     		 			<a href="#">{% random_name%}</a> <span class="side-name"> | 14 hrs </span>
+	     		 			<a href="#">{{name}}</a> <span class="side-name"> | 14 hrs </span>
 	     		 			<p id = "post_content">{{tweet_text.fields.content}}</p>
 	     		 			<div class="w3-center">
-								{% if config.reply_button != False %}  <button type="button" id="{{tweet_text.pk}}" onclick="update_session_comment_post(this.id);document.getElementById('comment').style.display='block'" class="w3-button w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment">  {% random_int config.lower_limit_interaction config.upper_limit_interaction %} </i>  </button>    {% endif %} 
-								{% if config.retweet_button != False %}  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.pk}}-retweet" onclick="interaction(this.id)"><i class="fa fa-retweet">  {% random_int config.lower_limit_interaction config.upper_limit_interaction %}</i>  </button> {% endif %}
-								{% if config.like_button != False %}  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.pk}}-like" onclick="interaction(this.id)" > <i class="fa fa-heart"> {% random_int config.lower_limit_interaction config.upper_limit_interaction %}</i> </button> {% endif %}
-								{% if config.share_button != False %}  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.pk}}-share" onclick="interaction(this.id)"><i class="fa fa-share"> {% random_int config.lower_limit_interaction config.upper_limit_interaction %}</i></button> {% endif %}
-								{% if config.block_button != False %}  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.pk}}-block" onclick="interaction(this.id)" ><i class="fa fa-ban">  {% random_int config.lower_limit_interaction config.upper_limit_interaction %}</i></button> {% endif %}
-								{% if config.follow_button != False %}  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.pk}}-follow" onclick="interaction(this.id)"><i class="fa fa-user-plus"> {% random_int config.lower_limit_interaction config.upper_limit_interaction %}</i> </button> {% endif %}
+								{% if config.reply_button != False %}  <button type="button" id="{{tweet_text.pk}}" onclick="update_session_comment_post(this.id); document.getElementById('comment').style.display='block'; increment(this.id);" class="w3-button w3-theme-d2 w3-margin-bottom " ><i class="fa fa-comment" id="{{tweet_text.pk}}-comment-num">  {{ num.0}} </i>  </button>    {% endif %} 
+								{% if config.retweet_button != False %}  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.pk}}-retweet" onclick="interaction(this.id); increment(this.id)"><i class="fa fa-retweet" id="{{tweet_text.pk}}-retweet-num">  {{ num.1}} </i>  </button> {% endif %}
+								{% if config.like_button != False %}  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.pk}}-like" onclick="interaction(this.id); increment(this.id)" > <i class="fa fa-heart" id="{{tweet_text.pk}}-like-num">  {{ num.2}}</i> </button> {% endif %}
+								{% if config.share_button != False %}  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.pk}}-share" onclick="interaction(this.id); increment(this.id)"><i class="fa fa-share" id="{{tweet_text.pk}}-share-num">  {{ num.3}}</i></button> {% endif %}
+								{% if config.block_button != False %}  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.pk}}-block" onclick="interaction(this.id); increment(this.id)" ><i class="fa fa-ban" id="{{tweet_text.pk}}-block-num">  {{ num.4}}</i></button> {% endif %}
+								{% if config.follow_button != False %}  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.pk}}-follow" onclick="interaction(this.id); increment(this.id)"><i class="fa fa-user-plus" id="{{tweet_text.pk}}-follow-num">  {{ num.5}}</i> </button> {% endif %}
 				
                 			</div>
 	     		 	</div>
@@ -123,19 +116,19 @@
 
 		<div class="second-trend">
 		 	<div class="search">
-		 		<i class="fa fa-search searchicon"></i>
-		 		<input type="text" id="search-bar" placeholder="Search chirp">
+		 		<i class="fa fa-search searchicon" onclick="document.getElementById('irrelevant_option').style.display='block'"> </i>
+		 		<input type="text" style="color: black;" id="search-bar" placeholder="Search chirp">
 		 	</div>
 		 	<div class="trend">
    				<h4 class="h4-title">Trends for you</h4>
             <div class="trend-div">
    			 	<div class="left-20"> 
-    			<a href="#"><small class="trend-title">Trending in Portugal</small></a>
+    			<a href="#"  onclick="document.getElementById('irrelevant_option').style.display='block'"><small class="trend-title">Trending in Portugal</small></a>
       			<a href="#">
        			<p class="trend-list">Lorem ipsum</p>
      		    </a>
-             <a href="#"><small class="trend-title">Trending in Portugal</small></a>
-             <a href="#">
+             <a href="#" onclick="document.getElementById('irrelevant_option').style.display='block'" ><small class="trend-title">Trending in Portugal</small></a>
+             <a href="#" >
               <p class="trend-list">Lorem ipsum</p>
               </a>
 				</div>
@@ -286,14 +279,6 @@
 		</div>
 
 
-	<script type=text/javascript>
-	  // Esta funçao vai permitir o id do post a comentar em sessão. 
-		function update_session_comment_post(id_post) { 
-			$.get('update_session', id_post);
-		} 
-	</script>
-
-
 
 
 
@@ -301,27 +286,16 @@
 
 
   <!-- ----------------------------------------------->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script type=text/javascript>
- 
-	function interaction(clicked_id) { 
-		$.get('add_interaction', clicked_id);
-	} 
-</script>
+/// POP UP de consentimento
+$(document).ready(function() {
 
-
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-
-
-<script type="text/javascript">
 if (localStorage.getItem('consent') == null) {
    $('#popup').modal({backdrop: 'static', keyboard: false});
 	
@@ -342,11 +316,55 @@ $('#age').click(function() {
 		$('#ok_consent').prop('disabled', true);
 	}
 })
+
+})
+</script>
+
+<!-- Increments the number of the button when an interaction append-->
+<script>
+	
+	var add = (function (a) {
+
+	  var counter = parseInt(document.getElementById(a).innerHTML , 10);
+
+	  return function () {return counter += 1;}
+
+	})();
+	
+	function increment(id){
+		var x = id.concat('-num')
+		var counter = parseInt(document.getElementById(x).innerHTML , 10);
+		
+	  document.getElementById(x).innerHTML =counter + 1;
+	}
+	</script>
+
+
+<script type=text/javascript>
+ 
+	function interaction(clicked_id) { 
+		$.get('add_interaction', clicked_id);
+	} 
 </script>
 
 
+<!-- Increments the button when an interaction append-->
+<script type=text/javascript>
+ 
+	function increment_interaction(id,atual_number) { 
+		$.get('add_interaction', atual_number);
+	} 
+</script>
 
 
+<script type=text/javascript>
+	// Esta funçao vai permitir adicionar o id do post a comentar em sessão. 
+	  function update_session_comment_post(id_post) { 
+		  $.get('update_session', id_post);
+	  } 
+
+
+  </script>
 
 
 
