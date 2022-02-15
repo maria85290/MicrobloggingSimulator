@@ -32,6 +32,7 @@ def about_view(request,*args, **kwargs):
 Render contact form and send e-mail
 '''
 def contact_view(request,*args, **kwargs):
+   
     if request.session.test_cookie_worked():
                 print ("The test cookie worked!!!")
                 request.session.delete_test_cookie()
@@ -43,11 +44,10 @@ def contact_view(request,*args, **kwargs):
         Message = request.POST['Message']
         print(Name, Email, Subject, Message)
 
-        Email = 'mei.proj2122@gmail.com'
         ## Send the e-mail
         send_mail (
            '[Prototyping Environment]' + Subject , #subject
-             Message, #message
+            "[send by] " + Email + "\n" + Message, #message
             Email, #from Email
             ['mei.proj2122@gmail.com'], #TO Email
         )

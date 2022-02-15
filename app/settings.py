@@ -167,10 +167,11 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+#os.environ.get('MEI_PROJ_EMAIL')  os.environ.get('MEI_PROJ_PASS')
 
 ## Email setting
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 465
-EMAIL_HOST_USER = os.environ.get('MEI_PROJ_EMAIL')
-EMAIL_HOST_PASSWORD = os.environ.get('MEI_PROJ_PASS')
+EMAIL_HOST_USER = "mei.proj2122@gmail.com"
+EMAIL_HOST_PASSWORD = "meiproject"
 EMAIL_USE_SSL = True
