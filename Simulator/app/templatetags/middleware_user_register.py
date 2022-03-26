@@ -13,6 +13,7 @@ class UserRegister:
         
         if request.session.get('id_user') and queries.get_participante (request.session.get('id_user')) is not None :
             print(" [Session] Este utilizador ja tem session")
+            print (request.session.get('id_user'))
 
         
         else:

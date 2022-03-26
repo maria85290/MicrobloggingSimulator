@@ -12,6 +12,7 @@ Function that receives the name of the configuration and returns the object
 '''
 def get_configuration (configName):
     try:
+        print (configName)
         conf = Configuration.objects.get(configName = configName)
     except Configuration.DoesNotExist:
         return False, "Config does not exit"

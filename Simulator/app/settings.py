@@ -110,11 +110,11 @@ WSGI_APPLICATION = 'app.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'twitter_env',
+        'NAME': 'twitter_env',  #twitter_env
         'USER': 'root',
         'PASSWORD': '123456789',
-        'HOST': 'localhost', ## Está na minha maquina
-        'PORT': '3306'  ## Posta padrao para o sql Local
+        'HOST': 'db', ## db  localhost
+        'PORT': '3306'  ## 
     }
 }
 
