@@ -12,3 +12,10 @@ INSERT INTO tweets_post (id, content) VALUES (3, ' False. What the legislation d
 INSERT INTO tweets_configuration (id, configName, space_for_comment, space_for_creat_post, user_picture, reply_button, like_button, share_button, block_button, follow_button, retweet_button,posts_number, lower_limit_interaction, upper_limit_interaction) VALUES (1, 'default', 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 ,2, 20,50);
 INSERT INTO tweets_environment (id, configuration_id) VALUES (1, 1);
 
+INSERT INTO tweets_hashtag (id, hashtag, post_id) VALUES (1, 'Fake', 1 );
+INSERT INTO tweets_hashtag (id, hashtag, post_id) VALUES (2, 'FAKE', 1 );
+
+INSERT INTO tweets_hashtag (id, hashtag, post_id) VALUES (3, 'fake-new', 2 );
+INSERT INTO tweets_hashtag (id, hashtag, post_id) VALUES (4, 'FAKE-NEW', 2 );
+
+INSERT INTO tweets_image (id, imagepath, post_id) VALUES (1, 'twitter.jpg', 2 );

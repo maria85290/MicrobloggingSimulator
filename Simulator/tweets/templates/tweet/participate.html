@@ -90,14 +90,23 @@
 		{% endfor %}
 			<!--Twetts narratives-->
 
-        {% for tweet_text, num, name, photo in posts%}
+        {% for tweet_text, hashtags, images, num, name, photo in posts%}
      		 	<div class="actual-tweet">
 	     		 	<span class="add-tweet-image">
               			<img src = "{{photo}}" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
             		</span>
 	     		 	<div class="tweet-content">
 	     		 			<a href="#">{{name}}</a> <span class="side-name"> | 14 hrs </span>
-	     		 			<p id = "post_content">{{tweet_text.fields.content}}</p>
+	     		 			<p id = "post_content">{{tweet_text.fields.content}} 
+							  {% for h in hashtags %}
+							   <samp class="w3-text-blue" >#{{h}}  </samp>
+							  {% endfor %}
+							</p>
+							  {% for img in images %}
+							  	<p><img src = "static/tweetsImages/{{img}}" style="width:60px"></p>
+
+							  {% endfor %}
+
 	     		 			<div class="w3-center">
 								{% if config.reply_button != False %}  <button type="button" id="{{tweet_text.pk}}" onclick="update_session_comment_post(this.id); document.getElementById('comment').style.display='block'; increment(this.id);" class="w3-button w3-theme-d2 w3-margin-bottom " ><i class="fa fa-comment" id="{{tweet_text.pk}}-comment-num">  {{ num.0}} </i>  </button>    {% endif %} 
 								{% if config.retweet_button != False %}  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.pk}}-retweet" onclick="interaction(this.id); increment(this.id)"><i class="fa fa-retweet" id="{{tweet_text.pk}}-retweet-num">  {{ num.1}} </i>  </button> {% endif %}
@@ -259,17 +268,18 @@
 
 
   
-    <!-- Modal -->
+    <!-- Pop up window -->
     <div class="modal fade" id="popup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 		
 			<div class="modal-body">
 			  <h5 style="text-align: center;"> This page would like your permission to track your navigation during your participation in the study.</h5>
-			  <p style="text-align: center;">Your data will only be used for the study context presented before.</p>
+			  <p style="text-align: center;">Your data will be used only for the study context presented.
+				Please note that the posts on this page are automatically generated.</p>
 			</div>
 			<div class="modal-footer">
-				 <input type="checkbox" id="age" value="1"> I certify that I am at least 18 years old.</label> 
+				 <input type="checkbox" id="age" value="1"> I confirm that I'm at least 18 years old.</label> 
 
 				<button type="button" id="ok_consent" class="w3-button w3-green" disabled>OK</button>
 				<button type="button"  class="w3-button w3-red" onclick="window.location='home'">Dont allow</button>

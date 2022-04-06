@@ -35,12 +35,31 @@ def participate(request,*args, **kwargs):
                 state, env = queries.get_environment()
                 state, config = queries.get_configuration(env.configuration.configName)     
                 state, posts = queries.get_posts(config.posts_number)
+                ## Check if the post have hashtags
+                hashtags = []
+                images = []
+                for post in posts:
+                  
+                        state1, hashtag = queries.get_hashtags_by_post (post.id)
+                        state2, img = queries.get_image_by_post(post.id)
+
+                        if state1 == True:
+                             hashtags.append ([k.hashtag for k in hashtag])
+                             
+                        if state2 == True:
+                             images.append ([i.imagepath for i in img])
+                             
 
 
                 ## Save the data generated in the session
                 request.session['env'] = env.id
                 request.session['conf'] = model_to_dict(config)
                 request.session['posts'] =  serializers.serialize('json',posts)
+                request.session['hashtags'] = hashtags
+                request.session['images'] = images
+                 ## request.session['images'] =  ima
+
+                
 
                 ## Data that is generated according to the settings 
                 request.session['random_data'] = {
@@ -52,8 +71,10 @@ def participate(request,*args, **kwargs):
          ## Check if the user has posts made by him to present
         state, posts_by_user = queries.get_posts_by_users (request.session.get('id_user'))
 
+
+
         context = {
-          "posts": zip (json.loads(request.session.get('posts')),request.session.get('random_data')['interactions'],request.session.get('random_data')['names'], request.session.get('random_data')['photo']),
+          "posts": zip (json.loads(request.session.get('posts')),request.session.get('hashtags'), request.session.get('images'), request.session.get('random_data')['interactions'],request.session.get('random_data')['names'], request.session.get('random_data')['photo']),
           "posts_by_user" : posts_by_user, 
          "idParticipant":request.session.get('id_user'),
          "config":request.session.get('conf'),

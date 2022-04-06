@@ -46,7 +46,7 @@ class Mouse_tracking (models.Model):
 
 class Post (models.Model):
     content  = models.CharField(max_length=280) 
-    image = models.CharField(max_length=50, null=True)
+  #  image = models.CharField(max_length=50, null=True)
 
 
 class Hashtag(models.Model):

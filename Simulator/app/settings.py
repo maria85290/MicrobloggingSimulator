@@ -113,7 +113,7 @@ DATABASES = {
         'NAME': 'twitter_env',  #twitter_env
         'USER': 'root',
         'PASSWORD': '123456789',
-        'HOST': 'db', ## db  localhost
+        'HOST': 'localhost', ## db  localhost
         'PORT': '3306'  ## 
     }
 }

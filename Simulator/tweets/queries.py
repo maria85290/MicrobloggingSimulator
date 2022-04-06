@@ -1,3 +1,4 @@
+from tkinter.tix import IMAGE
 from types import CodeType
 from .models import *
 import datetime
@@ -88,6 +89,29 @@ def get_posts_by_users (id_user):
     
     return True, post
 
+'''
+Receives a post id and returns the hashtags associated
+'''
+def get_hashtags_by_post(id_post):
+    try:
+        hashtags = Hashtag.objects.filter(post_id = id_post)
+    except Hashtag.DoesNotExist:
+        return False, "Post does not exit"
+    
+    return True, hashtags
+
+
+
+'''
+Receives a post id and returns the images associated
+'''
+def get_image_by_post(id_post):
+    try:
+        images = Image.objects.filter(post_id = id_post)
+    except IMAGE.DoesNotExist:
+        return False, "Post does not exit"
+    
+    return True, images
 
 
 
