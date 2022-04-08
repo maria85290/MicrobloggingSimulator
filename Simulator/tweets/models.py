@@ -35,6 +35,7 @@ class Environment (models.Model):
 
 class Participant(models.Model):
     personality = models.IntegerField(default=0)
+    date = models.DateField(default="2020/01/01")
     beginTime = models.TimeField()
     endTime = models.TimeField()
 

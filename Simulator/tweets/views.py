@@ -59,8 +59,9 @@ def participate(request,*args, **kwargs):
                 request.session['images'] = images
                  ## request.session['images'] =  ima
 
-                
+                request.session['interactions'] = {'like' : [], 'share': [], 'follow': [], "block":[], "retweet" :[]}
 
+                       
                 ## Data that is generated according to the settings 
                 request.session['random_data'] = {
                         "interactions":  
@@ -74,14 +75,14 @@ def participate(request,*args, **kwargs):
 
 
         context = {
-          "posts": zip (json.loads(request.session.get('posts')),request.session.get('hashtags'), request.session.get('images'), request.session.get('random_data')['interactions'],request.session.get('random_data')['names'], request.session.get('random_data')['photo']),
-          "posts_by_user" : posts_by_user, 
-         "idParticipant":request.session.get('id_user'),
-         "config":request.session.get('conf'),
-         'random_data':  (request.session.get('random_data'))
+         "posts":        zip (json.loads(request.session.get('posts')),request.session.get('hashtags'), request.session.get('images'), request.session.get('random_data')['interactions'],request.session.get('random_data')['names'], request.session.get('random_data')['photo']),
+         "posts_by_user": posts_by_user, 
+         "idParticipant": request.session.get('id_user'),
+         "config":        request.session.get('conf'),
+         'random_data':   request.session.get('random_data'),
+         'interactions':  request.session.get('interactions')
         }
-       # logger.warning ('['+str(datetime.datetime.now())+']' + 'userId:' + str(request.session.get('id_user')))
-
+   
 
         return render (request, "tweet/participate.html", context)
       
@@ -97,6 +98,7 @@ def add_interaction (request, *args, **kwargs):
         ## Query recebida da interação, com Id do post, tipo de ação e id do participante
         query = request.GET.urlencode().split('-')
         id_post = query[0]
+        print(id_post)
         action_type = query[1][:-1]
         ## print (action_type)
         
@@ -109,14 +111,93 @@ def add_interaction (request, *args, **kwargs):
         "configuration_id":env.configuration 
         }
 
+        #Adiciona a base de dados
+
         state, message = queries.add_interactions(context)
 
         if   state   == True:
                 logger.warning ('['+str(datetime.datetime.now())+']' + 'add_action:'+action_type+":"+str(id_post)+ ":" + str(request.session.get('id_user')))
 
+        #edite random_data 
+        positions =  [int(json.loads(request.session.get('posts'))[i]['pk']) for i in range (request.session.get('conf')['posts_number']) ]
 
+        inte = request.session.get('random_data')['interactions']
+        position =  positions.index(int(id_post))
+        print ('ola', inte)
+        position_action= ['comment','retweet', 'like', 'share', 'block', 'follow'].index(action_type)
+        inte[position][position_action] = inte[position][position_action] + 1
+
+        request.session['random_data'][0] = inte
+
+        request.session['interactions'][action_type].append(int(id_post))
+        request.session.modified = True
+
+        print (request.session.get('random_data'))
+        request.session.modified = True
+        print ('ola', inte)
+
+        
        ##  print (message)
         return render (request, "tweet/participate.html")
+
+
+      
+
+'''
+add a new interaction: like, block, follow, retwett, share. This function is called when the user clicks in one button
+'''
+
+@api_view(['GET', 'POST'])
+def remove_interaction (request, *args, **kwargs):
+       
+        print ("ola, cheguei ao remover")
+        ## Query recebida da interação, com Id do post, tipo de ação e id do participante
+        query = request.GET.urlencode().split('-')
+        id_post = query[0]
+        print(id_post)
+        action_type = query[1][:-1]
+        ## print (action_type)
+        
+        state, env = queries.get_environment()
+
+
+        context = {"post_id": id_post, 
+        "participant_id": request.session.get('id_user'),
+        "actionType_id": action_type,
+        "configuration_id":env.configuration 
+        }
+
+        #Adiciona a base de dados
+
+
+        state, message = queries.delete_interaction(id_post, request.session.get('id_user'), action_type)
+
+        if   state   == True:
+                logger.warning ('['+str(datetime.datetime.now())+']' + 'delete_action:'+action_type+":"+str(id_post)+ ":" + str(request.session.get('id_user')))
+
+        #edite random_data 
+        positions =  [int(json.loads(request.session.get('posts'))[i]['pk']) for i in range (request.session.get('conf')['posts_number']) ]
+
+        inte = request.session.get('random_data')['interactions']
+        position =  positions.index(int(id_post))
+        
+        position_action= ['comment','retweet', 'like', 'share', 'block', 'follow'].index(action_type)
+        inte[position][position_action] = inte[position][position_action] - 1
+
+        request.session['random_data'][0] = inte
+
+        print (request.session.get('random_data'))
+        request.session.modified = True
+
+        request.session['interactions'][action_type].remove(int(id_post))
+        request.session.modified = True
+      
+
+        
+       ##  print (message)
+        return render (request, "tweet/participate.html")
+
+
 
 
 '''

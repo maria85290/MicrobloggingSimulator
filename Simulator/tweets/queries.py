@@ -54,7 +54,7 @@ def get_post (post_id):
 def get_actionType_id (nameAction):
     try:
         action = Action_type.objects.get(name = nameAction)
-
+  
     except Action_type.DoesNotExist:
         return False, "Action does not exit"
 
@@ -127,6 +127,21 @@ def get_participante (id_user):
     return part
 
 
+'''
+Receives a user's id and post and returns the interaction made
+'''
+def get_interaction (id_post, id_user, action_type):
+    print ("estou aqui")
+    print (int(id_post),int(id_user), get_actionType_id(action_type)[1])
+    try:
+        part = Interaction.objects.get(post_id = int(id_post), participant_id = int(id_user), actionType_id = int(get_actionType_id(action_type)[1]))
+
+    except Interaction.DoesNotExist:
+        print("nao deu")
+        return False, "Interaction does not exit"
+    
+    return True,part
+
 
 
 
@@ -137,7 +152,7 @@ Add a new participant to the database
 def add_participant ():
     
     try:
-        x = Participant.objects.create(personality = 0, beginTime = datetime.datetime.now(), endTime =  '00:00:00' )
+        x = Participant.objects.create(personality = 0, date= datetime.date.today(), beginTime = datetime.datetime.now(), endTime =  '00:00:00' )
     except Exception:
         error_message = "Error while creating new participant!"
         return False, error_message
@@ -157,7 +172,7 @@ def add_interactions(data):
     participantID = data.get ('participant_id') 
     configuration = data.get ('configuration_id') 
 
-
+   ## Work with database
     
     try:
         interaction= Interaction.objects.create(actionType_id = action_type_id,  configuration_id = configuration.id,  participant_id = participantID, post_id = postID)
@@ -170,6 +185,25 @@ def add_interactions(data):
         return False, error_message
 
     return True, state_message
+
+
+'''
+Remove a interaction from the database
+'''
+def delete_interaction(id_post, id_user, action_type):
+    try:
+        state,interaction = get_interaction(id_post, id_user, action_type)
+        print (state)
+        interaction.delete()
+        state, message = True, "Interaction successfully deleted"
+
+    except Exception:
+        state, message = False, "Error while deleting interaction"
+
+    print (message)
+
+    return state, message
+
 
 
 

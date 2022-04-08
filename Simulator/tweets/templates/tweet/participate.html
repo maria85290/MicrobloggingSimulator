@@ -108,12 +108,51 @@
 							  {% endfor %}
 
 	     		 			<div class="w3-center">
-								{% if config.reply_button != False %}  <button type="button" id="{{tweet_text.pk}}" onclick="update_session_comment_post(this.id); document.getElementById('comment').style.display='block'; increment(this.id);" class="w3-button w3-theme-d2 w3-margin-bottom " ><i class="fa fa-comment" id="{{tweet_text.pk}}-comment-num">  {{ num.0}} </i>  </button>    {% endif %} 
+								{% if config.reply_button != False %} 
+									{% if tweet_text.pk in interactions.reply %}
+									<button type="button" id="{{tweet_text.pk}}" onclick="document.getElementById('comment').style.display='block';"class="w3-button w3-theme-d2 w3-margin-bottom " ><i class="fa fa-comment" id="{{tweet_text.pk}}-comment-num">  {{ num.0}} </i>  </button>   
+								
+									{% else %}
+										<button type="button" id="{{tweet_text.pk}}" onclick="document.getElementById('comment').style.display='block';" class="w3-button w3-theme-d2 w3-margin-bottom " ><i class="fa fa-comment" id="{{tweet_text.pk}}-comment-num">  {{ num.0}} </i>  </button>   
+										
+										{% endif %}
+								{% endif %} 
 								{% if config.retweet_button != False %}  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.pk}}-retweet" onclick="interaction(this.id); increment(this.id)"><i class="fa fa-retweet" id="{{tweet_text.pk}}-retweet-num">  {{ num.1}} </i>  </button> {% endif %}
-								{% if config.like_button != False %}  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.pk}}-like" onclick="interaction(this.id); increment(this.id)" > <i class="fa fa-heart" id="{{tweet_text.pk}}-like-num">  {{ num.2}}</i> </button> {% endif %}
-								{% if config.share_button != False %}  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.pk}}-share" onclick="interaction(this.id); increment(this.id)"><i class="fa fa-share" id="{{tweet_text.pk}}-share-num">  {{ num.3}}</i></button> {% endif %}
-								{% if config.block_button != False %}  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.pk}}-block" onclick="interaction(this.id); increment(this.id)" ><i class="fa fa-ban" id="{{tweet_text.pk}}-block-num">  {{ num.4}}</i></button> {% endif %}
-								{% if config.follow_button != False %}  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.pk}}-follow" onclick="interaction(this.id); increment(this.id)"><i class="fa fa-user-plus" id="{{tweet_text.pk}}-follow-num">  {{ num.5}}</i> </button> {% endif %}
+									
+								{% if config.like_button != False %} 
+								   {% if tweet_text.pk in interactions.like %}
+										<button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.pk}}-like" onclick="removeinteraction(this.id)" > <i class="fa fa-heart" style="color: red;" id="{{tweet_text.pk}}-like-num">  {{ num.2}}</i> </button>
+								   {% else %}
+										<button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.pk}}-like" onclick="addinteraction(this.id)" > <i class="fa fa-heart" id="{{tweet_text.pk}}-like-num">  {{ num.2}}</i> </button>
+								   {% endif %}
+								 
+								{% endif %}
+								
+								 {% if config.share_button != False %}  
+									{% if tweet_text.pk in interactions.share %}
+										<button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.pk}}-share" onclick="removeinteraction(this.id)" > <i class="fa fa-share" style="color: red;" id="{{tweet_text.pk}}-share-num">  {{ num.3}}</i> </button>
+									{% else %}
+										<button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.pk}}-share" onclick="addinteraction(this.id);"><i class="fa fa-share" id="{{tweet_text.pk}}-share-num">  {{ num.3}}</i></button> 
+									{% endif %}
+								 {% endif %}
+
+								{% if config.block_button != False %}  
+								
+									{% if tweet_text.pk in interactions.block %}
+										<button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.pk}}-block" onclick="removeinteraction(this.id)" ><i class="fa fa-ban" style="color: red;" id="{{tweet_text.pk}}-block-num">  {{ num.4}}</i></button>
+									{% else %}
+										<button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.pk}}-block" onclick="addinteraction(this.id)" ><i class="fa fa-ban" id="{{tweet_text.pk}}-block-num">  {{ num.4}}</i></button>
+									{% endif %}
+								{% endif %}
+
+								{% if config.follow_button != False %}  
+									{% if tweet_text.pk in interactions.follow %}
+										<button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.pk}}-follow" onclick="removeinteraction(this.id)"><i class="fa fa-user-plus" style="color: red" id="{{tweet_text.pk}}-follow-num">  {{ num.5}}</i> </button> 
+
+									{% else %}
+										<button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.pk}}-follow" onclick="addinteraction(this.id)"><i class="fa fa-user-plus" id="{{tweet_text.pk}}-follow-num">  {{ num.5}}</i> </button> 
+									{% endif %}
+								{% endif %}
 				
                 			</div>
 	     		 	</div>
@@ -248,7 +287,7 @@
 <div id="comment" class="w3-modal">
 	<div class="w3-modal-content  w3-animate-left" style="padding:10px">
 		<div class="w3-container w3-white">
-		<i onclick="document.getElementById('comment').style.display='none'" class="fa fa-remove w3-transparent w3-button w3-xlarge w3-right"></i>
+		<i onclick="document.getElementById('comment-{{num}}').style.display='none'" class="fa fa-remove w3-transparent w3-button w3-xlarge w3-right"></i>
 		<h2 class="w3-center"></h2>
 
 			<form action="/add_reply" method="post">
@@ -330,41 +369,26 @@ $('#age').click(function() {
 })
 </script>
 
-<!-- Increments the number of the button when an interaction append-->
-<script>
-	
-	var add = (function (a) {
-
-	  var counter = parseInt(document.getElementById(a).innerHTML , 10);
-
-	  return function () {return counter += 1;}
-
-	})();
-	
-	function increment(id){
-		var x = id.concat('-num')
-		var counter = parseInt(document.getElementById(x).innerHTML , 10);
-		
-	  document.getElementById(x).innerHTML =counter + 1;
-	}
-	</script>
-
 
 <script type=text/javascript>
  
-	function interaction(clicked_id) { 
+	function addinteraction(clicked_id) { 
 		$.get('add_interaction', clicked_id);
 	} 
+
+	$(document).ajaxStop(function(){
+    window.location.reload();
+});
 </script>
 
-
-<!-- Increments the button when an interaction append-->
 <script type=text/javascript>
  
-	function increment_interaction(id,atual_number) { 
-		$.get('add_interaction', atual_number);
+	function removeinteraction(clicked_id) { 
+		$.get('remove_interaction', clicked_id);
 	} 
 </script>
+
+
 
 
 <script type=text/javascript>
