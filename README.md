@@ -9,5 +9,5 @@ We present a platform that simulates social media microblogging, inspired by the
 Execute:
 2. docker-compose up -d --build\end{verbatim}
 3. populate.bat (for a default database population) 
-4. Access the web application page: \url{http://localhost:8000/home};
+4. Access the web application page: http://localhost:8000/home;
 
