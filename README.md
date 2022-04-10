@@ -6,8 +6,7 @@ We present a platform that simulates social media microblogging, inspired by the
 ###  To use the platform, you can follow the next steps:
 
 1. Download this repository;
-2. In the project folder run the commands:
-2.1. docker-compose up -d --build\end{verbatim}
-2.2. populate.bat (for a default database population) 
-3Access the web application page: \url{http://localhost:8000/home};
+2. docker-compose up -d --build\end{verbatim}
+3. populate.bat (for a default database population) 
+4. Access the web application page: \url{http://localhost:8000/home};
 
