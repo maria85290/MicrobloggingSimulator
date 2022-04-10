@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+from django.core.exceptions import ImproperlyConfigured
+
 import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -107,14 +109,26 @@ WSGI_APPLICATION = 'app.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+def get_env_value(env_variable):
+    try:
+        return os.environ[env_variable]
+    except KeyError:
+        error_msg = 'Set the {} environment variable'.format(env_variable)
+        raise ImproperlyConfigured(error_msg)
+
+import environ
+# Initialise environment variables
+env = environ.Env()
+environ.Env.read_env()
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'twitter_env',  #twitter_env
-        'USER': 'root',
-        'PASSWORD': '123456789',
-        'HOST': 'localhost', ## db  localhost
-        'PORT': '3306'  ## 
+        'NAME':  env('DB_NAME'),  #twitter_env
+        'USER': env('DB_USER'),
+        'PASSWORD': env('DB_PASS'),
+        'HOST': env('DB_HOST'), ## db  localhost
+        'PORT': env('DB_PORT')  ## 
     }
 }
 
@@ -167,11 +181,10 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-#os.environ.get('MEI_PROJ_EMAIL')  os.environ.get('MEI_PROJ_PASS')
-
+#https://www.google.com/settings/security/lesssecureapps
 ## Email setting
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 465
-EMAIL_HOST_USER = "mei.proj2122@gmail.com"
-EMAIL_HOST_PASSWORD = "meiproject"
-EMAIL_USE_SSL = True
+EMAIL_HOST = env('EMAIL_HOST')
+EMAIL_PORT =  env('EMAIL_PORT')
+EMAIL_HOST_USER =  env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD =  env('EMAIL_HOST_PASSWORD')
+EMAIL_USE_SSL =  env('EMAIL_USE_SSL')

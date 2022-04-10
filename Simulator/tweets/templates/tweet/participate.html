@@ -109,11 +109,11 @@
 
 	     		 			<div class="w3-center">
 								{% if config.reply_button != False %} 
-									{% if tweet_text.pk in interactions.reply %}
-									<button type="button" id="{{tweet_text.pk}}" onclick="document.getElementById('comment').style.display='block';"class="w3-button w3-theme-d2 w3-margin-bottom " ><i class="fa fa-comment" id="{{tweet_text.pk}}-comment-num">  {{ num.0}} </i>  </button>   
+									{% if tweet_text.pk in interactions.comment %}
+									<button type="button" id="{{tweet_text.pk}}" class="w3-button w3-theme-d2 w3-margin-bottom" style="color: red;"  ><i class="fa fa-comment" id="{{tweet_text.pk}}-comment-num">  {{ num.0}} </i>  </button>   
 								
 									{% else %}
-										<button type="button" id="{{tweet_text.pk}}" onclick="document.getElementById('comment').style.display='block';" class="w3-button w3-theme-d2 w3-margin-bottom " ><i class="fa fa-comment" id="{{tweet_text.pk}}-comment-num">  {{ num.0}} </i>  </button>   
+										<button type="button" id="{{tweet_text.pk}}" onclick="update_session_comment_post(this.id);document.getElementById('comment').style.display='block';" class="w3-button w3-theme-d2 w3-margin-bottom " ><i class="fa fa-comment" id="{{tweet_text.pk}}-comment-num">  {{ num.0}} </i>  </button>   
 										
 										{% endif %}
 								{% endif %} 
@@ -374,17 +374,22 @@ $('#age').click(function() {
  
 	function addinteraction(clicked_id) { 
 		$.get('add_interaction', clicked_id);
+		
+		setTimeout(function () {
+        location.reload(true);
+      }, 300);
 	} 
 
-	$(document).ajaxStop(function(){
-    window.location.reload();
-});
+
 </script>
 
 <script type=text/javascript>
  
 	function removeinteraction(clicked_id) { 
 		$.get('remove_interaction', clicked_id);
+		setTimeout(function () {
+        location.reload(true);
+      }, 300);
 	} 
 </script>
 

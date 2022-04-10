@@ -4,3 +4,4 @@ django-cors-headers
 mysqlclient
 django-mysql
 pynput
+django-environ

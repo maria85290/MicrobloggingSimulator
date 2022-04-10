@@ -59,7 +59,7 @@ def participate(request,*args, **kwargs):
                 request.session['images'] = images
                  ## request.session['images'] =  ima
 
-                request.session['interactions'] = {'like' : [], 'share': [], 'follow': [], "block":[], "retweet" :[]}
+                request.session['interactions'] = {'like' : [], 'share': [], 'follow': [], "block":[], "retweet" :[], "comment":[]}
 
                        
                 ## Data that is generated according to the settings 
@@ -223,8 +223,25 @@ def add_reply (request, *args, **kwargs):
                         state, message = queries.add_interactions({"post_id": post_id, "participant_id": request.session.get('id_user'),"reply_content":content, "actionType_id": "reply", "configuration_id":env.configuration })
                         if state == True:
                                 logger.warning ('['+str(datetime.datetime.now())+']' + 'add_reply'+":" + str(post_id) + ":" + str(request.session.get('id_user')) +  ":" + content.strip()  )
-         
-        
+
+                        #edite random_data 
+                        positions =  [int(json.loads(request.session.get('posts'))[i]['pk']) for i in range (request.session.get('conf')['posts_number']) ]
+
+                        inte = request.session.get('random_data')['interactions']
+                        position =  positions.index(int(post_id))
+                        print ('ola', inte)
+                        position_action= ['comment','retweet', 'like', 'share', 'block', 'follow'].index('comment')
+                        inte[position][position_action] = inte[position][position_action] + 1
+
+                        request.session['random_data'][0] = inte
+
+                        request.session['interactions']['comment'].append(int(post_id))
+                        request.session.modified = True
+
+                        print (request.session.get('random_data'))
+                        request.session.modified = True
+                        print ('ola', inte)
+                        
         return redirect (participate)
         
 
