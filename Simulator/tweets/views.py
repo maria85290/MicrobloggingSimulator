@@ -57,6 +57,7 @@ def participate(request,*args, **kwargs):
                 request.session['posts'] =  serializers.serialize('json',posts)
                 request.session['hashtags'] = hashtags
                 request.session['images'] = images
+                request.session['submitedd'] = False
                  ## request.session['images'] =  ima
 
                 request.session['interactions'] = {'like' : [], 'share': [], 'follow': [], "block":[], "retweet" :[], "comment":[]}
@@ -72,6 +73,9 @@ def participate(request,*args, **kwargs):
          ## Check if the user has posts made by him to present
         state, posts_by_user = queries.get_posts_by_users (request.session.get('id_user'))
 
+        if request.session.get('submitedd') == True:
+                return render (request, "tweet/submitedd.html")
+      
 
 
         context = {
@@ -276,4 +280,19 @@ def update_session (request, *args, **kwargs):
         request.session['post_to_comment'] = id_post
         return HttpResponse('ok')
 
-        
+
+
+'''
+Helper function: which allows  to submit the participation
+'''
+@api_view(['POST'])
+def submit (request, *args, **kwargs):
+        if request.method == 'POST':
+                state, message = queries.update_participant(request.session.get('id_user'))
+                if state == True:
+                        request.session['submitedd'] = True
+        return redirect (participate)
+      
+
+
+

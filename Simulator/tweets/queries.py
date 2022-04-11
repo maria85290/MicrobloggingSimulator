@@ -163,6 +163,30 @@ def add_participant ():
 
 
 '''
+Update the end Time of a participant in the database
+'''
+def update_participant(id_user):
+        
+    
+        part = Participant.objects.filter(id = id_user)
+   
+        if not part.exists():
+            state, message = False, "User does not exist"
+            return state, message
+
+        try:
+            part.update(endTime=datetime.datetime.now())
+            state = True
+            message = "Admin successfully updated!"
+
+        except Exception:
+            state, message = False, "Error while updating admin!"
+
+        return state, message
+
+
+
+'''
 Add a new interaction to the database
 '''
 def add_interactions(data):

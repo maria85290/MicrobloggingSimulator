@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<body  class="lightmode ">
+<body  class="lightmode w3-white">
   {% load static %}
   {% load random %}
  
@@ -73,7 +73,7 @@
 				<img src = "static/users/default_user.png" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
 		</span>
 			<div class="tweet-content">
-					<a href="#">You</a> <span class="side-name"> | 2 hrs </span>
+					<a href="#">You</a> <span class="side-name"> | now </span>
 					<p>{{tweet.content}}</p>
 					<div class="w3-center">
 					<button type="button" class="w3-button w3-theme-d2 w3-margin-bottom" onclick="document.getElementById('irrelevant_option').style.display='block'"><i class="fa fa-comment"> 0 </i>  </button>    
@@ -109,15 +109,18 @@
 
 	     		 			<div class="w3-center">
 								{% if config.reply_button != False %} 
-									{% if tweet_text.pk in interactions.comment %}
-									<button type="button" id="{{tweet_text.pk}}" class="w3-button w3-theme-d2 w3-margin-bottom" style="color: red;"  ><i class="fa fa-comment" id="{{tweet_text.pk}}-comment-num">  {{ num.0}} </i>  </button>   
-								
-									{% else %}
 										<button type="button" id="{{tweet_text.pk}}" onclick="update_session_comment_post(this.id);document.getElementById('comment').style.display='block';" class="w3-button w3-theme-d2 w3-margin-bottom " ><i class="fa fa-comment" id="{{tweet_text.pk}}-comment-num">  {{ num.0}} </i>  </button>   
-										
-										{% endif %}
 								{% endif %} 
-								{% if config.retweet_button != False %}  <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.pk}}-retweet" onclick="interaction(this.id); increment(this.id)"><i class="fa fa-retweet" id="{{tweet_text.pk}}-retweet-num">  {{ num.1}} </i>  </button> {% endif %}
+
+
+								{% if config.retweet_button != False %}
+									{% if tweet_text.pk in interactions.retweet %}
+										<button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.pk}}-retweet" onclick="removeinteraction(this.id)"><i class="fa fa-retweet" style="color: red;" id="{{tweet_text.pk}}-retweet-num">  {{ num.1}} </i>  </button> 
+
+									{% else %}  
+										<button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" id = "{{tweet_text.pk}}-retweet"  onclick="addinteraction(this.id)"><i class="fa fa-retweet" id="{{tweet_text.pk}}-retweet-num">  {{ num.1}} </i>  </button> 
+									{% endif %}
+								{% endif %}
 									
 								{% if config.like_button != False %} 
 								   {% if tweet_text.pk in interactions.like %}
@@ -159,6 +162,13 @@
 	     		 		
      		 	</div>
         {% endfor %}
+
+		    <p class="w3-center">
+				<img src="{% static 'images/bird.png' %}" class="w3-circle w3-margin-right" style="width:80px"></img>
+				<form action="/submit" method="post"> {% csrf_token %}
+					<button type="submit" class="w3-button w3-blue">Submit participation </button> 
+				</form>
+			</p>
 			
      		</div>
 
@@ -383,6 +393,8 @@ $('#age').click(function() {
 
 </script>
 
+
+
 <script type=text/javascript>
  
 	function removeinteraction(clicked_id) { 
@@ -404,6 +416,19 @@ $('#age').click(function() {
 
 
   </script>
+
+
+<script type=text/javascript>
+ 
+	function submit() { 
+		$.get('submit');
+	} 
+
+
+</script>
+
+
+
 
 
 

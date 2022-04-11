@@ -29,6 +29,8 @@ urlpatterns = [
     path('add_reply', add_reply, name ="add_reply"),
     path('contact', views.contact_view, name ="contact"),
     path('update_session', update_session, name ="update_session"),
+    path('submit', submit, name ="submit"),
+
 
     path('admin/', admin.site.urls)
 ]
