@@ -40,9 +40,9 @@ class Participant(models.Model):
     endTime = models.TimeField()
 
 
-class Mouse_tracking (models.Model):
-    tracking = models.CharField(max_length=100) 
-    participant =  models.ForeignKey(Participant, on_delete=models.CASCADE)
+#class Mouse_tracking (models.Model):
+ #   tracking = models.CharField(max_length=100) 
+ #   participant =  models.ForeignKey(Participant, on_delete=models.CASCADE)
 
 
 class Post (models.Model):
