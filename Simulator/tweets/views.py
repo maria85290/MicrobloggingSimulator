@@ -4,17 +4,22 @@ from rest_framework.decorators import api_view
 from django.forms.models import model_to_dict
 from django.core import serializers
 from django.http import HttpResponse
-import logging
 import datetime
 import json
-
+import logging
 
 from .models import *
 from . import queries 
 from . import random 
 
+def writeLog (m):
+        file_object = open('info.txt', 'a+')
+        file_object.write(m)
+        file_object.write('\n')
+        file_object.close()
+        return 0
 
-logger = logging.getLogger(__name__)
+
 
 
 '''
@@ -26,12 +31,13 @@ def participate(request,*args, **kwargs):
 
       
         if request.session.get('env'):
-              
-              
+                
+              #  os.system('py mousetracking.py ' + str(request.session.get('id_user')) + "&")
                 print(" [Session] An environment has already been generated for this session")
-     
+
+                
         else:     
-                print(" [Session] Generating a env for this session")
+                print("[Session] Generating a env for this session")
                 state, env = queries.get_environment()
                 state, config = queries.get_configuration(env.configuration.configName)     
                 state, posts = queries.get_posts(config.posts_number)
@@ -72,6 +78,8 @@ def participate(request,*args, **kwargs):
 
          ## Check if the user has posts made by him to present
         state, posts_by_user = queries.get_posts_by_users (request.session.get('id_user'))
+
+       # mousetracking.tracking(request.session.get('id_user'))
 
         if request.session.get('submitedd') == True:
                 return render (request, "tweet/submitedd.html")
@@ -120,7 +128,8 @@ def add_interaction (request, *args, **kwargs):
         state, message = queries.add_interactions(context)
 
         if   state   == True:
-                logger.warning ('['+str(datetime.datetime.now())+']' + 'add_action:'+action_type+":"+str(id_post)+ ":" + str(request.session.get('id_user')))
+                writeLog('['+str(datetime.datetime.now())+']' + 'add_action:'+action_type+":"+str(id_post)+ ":" + str(request.session.get('id_user')))
+                
 
         #edite random_data 
         positions =  [int(json.loads(request.session.get('posts'))[i]['pk']) for i in range (request.session.get('conf')['posts_number']) ]
@@ -177,7 +186,7 @@ def remove_interaction (request, *args, **kwargs):
         state, message = queries.delete_interaction(id_post, request.session.get('id_user'), action_type)
 
         if   state   == True:
-                logger.warning ('['+str(datetime.datetime.now())+']' + 'delete_action:'+action_type+":"+str(id_post)+ ":" + str(request.session.get('id_user')))
+                writeLog('['+str(datetime.datetime.now())+']' + 'delete_action:'+action_type+":"+str(id_post)+ ":" + str(request.session.get('id_user')))
 
         #edite random_data 
         positions =  [int(json.loads(request.session.get('posts'))[i]['pk']) for i in range (request.session.get('conf')['posts_number']) ]
@@ -226,7 +235,7 @@ def add_reply (request, *args, **kwargs):
                         ## print ("post_id")
                         state, message = queries.add_interactions({"post_id": post_id, "participant_id": request.session.get('id_user'),"reply_content":content, "actionType_id": "reply", "configuration_id":env.configuration })
                         if state == True:
-                                logger.warning ('['+str(datetime.datetime.now())+']' + 'add_reply'+":" + str(post_id) + ":" + str(request.session.get('id_user')) +  ":" + content.strip()  )
+                                writeLog('['+str(datetime.datetime.now())+']' + 'add_reply'+":" + str(post_id) + ":" + str(request.session.get('id_user')) +  ":" + content.strip()  )
 
                         #edite random_data 
                         positions =  [int(json.loads(request.session.get('posts'))[i]['pk']) for i in range (request.session.get('conf')['posts_number']) ]
@@ -265,7 +274,7 @@ def add_post_by_user (request, *args, **kwargs):
 
                 state, message = queries.add_post_by_user(context)
                 if state == True:
-                        logger.warning ('['+str(datetime.datetime.now())+']' + 'add_post_by_user'+":" + str(request.session.get('id_user')) + ":" + request.data.get('post_by_user')  )
+                        writeLog ('['+str(datetime.datetime.now())+']' + 'add_post_by_user'+":" + str(request.session.get('id_user')) + ":" + request.data.get('post_by_user')  )
          
         return redirect (participate)
 

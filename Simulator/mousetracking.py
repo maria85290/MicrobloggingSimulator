@@ -1,9 +1,13 @@
 from pynput.mouse import Listener
-import logging
+from pynput import mouse
 
-logging.basicConfig(filename="mouse_log.txt", level=logging.DEBUG, format='%(asctime)s: %(message)s')
+from datetime import datetime
+import logging
+import sys
+
 
 def on_move(x, y):
+    file_object = open('sample.txt', 'a')
     logging.info("Mouse moved to ({0}, {1})".format(x, y))
 
 def on_click(x, y, button, pressed):
@@ -13,5 +17,17 @@ def on_click(x, y, button, pressed):
 def on_scroll(x, y, dx, dy):
     logging.info('Mouse scrolled at ({0}, {1})({2}, {3})'.format(x, y, dx, dy))
 
-with Listener(on_move=on_move, on_click=on_click, on_scroll=on_scroll) as listener:
-    listener.join()
+
+
+def tracking(id_user):
+    # Getting the current date and time
+    dt = datetime.now()
+    ts = datetime.timestamp(dt)
+
+    logging.basicConfig(filename=  "static/filestore/mousetracking/" + str(id_user) + ".log", level=logging.DEBUG, format='%(asctime)s: %(message)s', force=True)
+    listener = mouse.Listener(
+        on_move=on_move,
+        on_click=on_click,
+        on_scroll=on_scroll)
+    listener.start()
+
