@@ -1,8 +1,6 @@
 
 from tweets import queries
-from pynput.mouse import Listener
-from datetime import datetime
-import mousetracking
+#import mousetracking
 
 
 
@@ -19,8 +17,8 @@ class UserRegister:
 
         if request.session.get('id_user') and queries.get_participante (request.session.get('id_user')) is not None :
             print(" [Session] Este utilizador ja tem session")
-            mousetracking.tracking (request.session.get('id_user'))
-            request.session['tracking'] = True
+            #mousetracking.tracking (request.session.get('id_user'))
+           # request.session['tracking'] = True
             print (request.session.get('id_user'))
             
 
@@ -29,8 +27,8 @@ class UserRegister:
             ## creat session with the user id
             id, message = queries.add_participant()
             request.session['id_user'] = id
-            mousetracking.tracking (id)
-            request.session['tracking'] = True
+            #mousetracking.tracking (id)
+           # request.session['tracking'] = True
           ##  print(id)
           ##  print(message)
 

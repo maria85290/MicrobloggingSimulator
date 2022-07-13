@@ -14,9 +14,8 @@ def random_int(a, b):
 
 @register.simple_tag
 def random_name():
-    list_name = ["Maria Laura", "Filipa silva" , "João Pedro","Middleton Mays","Teri Crosby", "Constança Elias" ,"Barron Knox" , "Rowland Banks" , "Ryan Branch"]
+    list_name = ["Maria Laura", "Filipa silva" , "Rita","Middleton Mays", "Constança Elias" ,"kika" , "Ana Santos", "Joana", "Lucia" ]
     return random.choice(list_name)
-
 
 
 @register.simple_tag
